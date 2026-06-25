@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  # ── Main application (Express + WebSocket) ──────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app/frontend:ro          # serve frontend files
+      - ./src:/app/src:ro                    # serve images
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - lms-net
+
+networks:
+  lms-net:
+    driver: bridge
+    internal: false
