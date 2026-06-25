@@ -1,0 +1,100 @@
+/* =========================================================================
+   Design Tokens – LFS101 Notes
+   ========================================================================= */
+
+:root {
+  /* ---- Brand palette ---- */
+  --color-primary:        #1a56db;
+  --color-primary-light:  #3b82f6;
+  --color-primary-dark:   #1e40af;
+  --color-accent:         #059669;
+  --color-accent-dark:    #047857;
+
+  /* ---- Surfaces ---- */
+  --bg-body:              #f8fafc;
+  --bg-card:              #ffffff;
+  --bg-code-inline:       #f1f5f9;
+  --bg-callout:           #eff6ff;
+  --bg-callout-border:    #3b82f6;
+
+  /* ---- Text ---- */
+  --text-heading:         #0f172a;
+  --text-primary:         #334155;
+  --text-secondary:       #64748b;
+  --text-muted:           #94a3b8;
+  --text-link:            var(--color-primary);
+
+  /* ---- Borders & shadows ---- */
+  --border-light:         #e2e8f0;
+  --border-card:          #e2e8f0;
+  --shadow-xs:            0 1px 2px rgba(0,0,0,.04);
+  --shadow-sm:            0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:            0 4px 6px -1px rgba(0,0,0,.06), 0 2px 4px -2px rgba(0,0,0,.04);
+
+  /* ---- Radius ---- */
+  --radius-sm:            6px;
+  --radius-md:            8px;
+  --radius-lg:            12px;
+
+  /* ---- Typography ---- */
+  --font-sans:            'Atkinson Hyperlegible', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading:         'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:            'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  --font-size-xs:         0.75rem;
+  --font-size-sm:         0.875rem;
+  --font-size-base:       1rem;
+  --font-size-lg:         1.125rem;
+  --font-size-xl:         1.25rem;
+  --font-size-2xl:        1.5rem;
+  --font-size-3xl:        1.875rem;
+  --font-size-4xl:        2.25rem;
+
+  /* ---- Spacing ---- */
+  --space-1:              0.25rem;
+  --space-2:              0.5rem;
+  --space-3:              0.75rem;
+  --space-4:              1rem;
+  --space-5:              1.25rem;
+  --space-6:              1.5rem;
+  --space-8:              2rem;
+  --space-10:             2.5rem;
+  --space-12:             3rem;
+  --space-16:             4rem;
+
+  /* ---- Layout ---- */
+  --header-height:        56px;
+
+  /* ---- Transitions ---- */
+  --transition-fast:      150ms cubic-bezier(.4,0,.2,1);
+  --transition-normal:    250ms cubic-bezier(.4,0,.2,1);
+
+  /* ---- Focus ---- */
+  --focus-ring:           0 0 0 2px var(--bg-card), 0 0 0 4px var(--color-primary);
+}
+
+/* ---- Dark mode ---- */
+[data-theme="dark"] {
+  --color-primary:        #3b82f6;
+  --color-primary-light:  #60a5fa;
+  --color-primary-dark:   #2563eb;
+  --color-accent:         #10b981;
+  --color-accent-dark:    #059669;
+
+  --bg-body:              #0f172a;
+  --bg-card:              #1e293b;
+  --bg-code-inline:       #334155;
+  --bg-callout:           #1e3a5f;
+  --bg-callout-border:    #3b82f6;
+
+  --text-heading:         #f1f5f9;
+  --text-primary:         #cbd5e1;
+  --text-secondary:       #94a3b8;
+  --text-muted:           #64748b;
+  --text-link:            var(--color-primary-light);
+
+  --border-light:         #334155;
+  --border-card:          #334155;
+  --shadow-xs:            0 1px 2px rgba(0,0,0,.2);
+  --shadow-sm:            0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+  --shadow-md:            0 4px 6px -1px rgba(0,0,0,.3), 0 2px 4px -2px rgba(0,0,0,.2);
+}
