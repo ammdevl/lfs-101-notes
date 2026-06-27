@@ -9,6 +9,7 @@ RUN cd backend && npm install --production
 # Copy source
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
+COPY src/ ./src/
 
 # Run as non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
