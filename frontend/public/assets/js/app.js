@@ -586,7 +586,7 @@ async function loadModule(moduleId) {
       <p>Could not load <code>${escHtml(moduleId)}.html</code>.</p>
       <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
         <button class="btn btn--primary" data-navigate="home">Back to Home</button>
-        <button class="btn btn--ghost" onclick="loadModule('${escHtml(moduleId)}')">Retry</button>
+        <button class="btn btn--ghost" data-retry="${escHtml(moduleId)}">Retry</button>
       </div>
     `;
   }
@@ -864,6 +864,12 @@ function bindEvents() {
     const completeEl = e.target.closest('[data-toggle-complete]');
     if (completeEl) {
       toggleComplete(completeEl.dataset.toggleComplete);
+      return;
+    }
+
+    const retryEl = e.target.closest('[data-retry]');
+    if (retryEl) {
+      loadModule(retryEl.dataset.retry);
       return;
     }
   });
