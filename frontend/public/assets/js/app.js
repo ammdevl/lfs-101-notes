@@ -110,6 +110,8 @@ function toggleDarkMode() {
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
+  const btn = document.getElementById('btn-theme-toggle');
+  if (btn) btn.setAttribute('aria-pressed', next === 'dark');
 }
 
 // ---------------------------------------------------------------------------
@@ -187,6 +189,10 @@ document.addEventListener('DOMContentLoaded', () => {
   bindEvents();
   showCookieBannerIfNeeded();
 
+  // Set initial ARIA state for dark mode toggle
+  const themeBtn = document.getElementById('btn-theme-toggle');
+  if (themeBtn) themeBtn.setAttribute('aria-pressed', document.documentElement.getAttribute('data-theme') === 'dark');
+
   const hash = location.hash.slice(1) || 'home';
   navigate(hash);
 });
@@ -213,15 +219,28 @@ function navigate(moduleId) {
 
   // Show/hide course sidebar (default: open on module pages)
   if (sidebar) {
+    const isMobile = window.innerWidth <= 768;
     if (isModulePage) {
-      sidebar.classList.remove('hidden');
+      if (isMobile) {
+        // On mobile, sidebar stays closed until user opens it
+        sidebar.classList.remove('hidden');
+        sidebar.classList.remove('open');
+      } else {
+        sidebar.classList.remove('hidden');
+        sidebar.classList.remove('open');
+      }
     } else {
       sidebar.classList.add('hidden');
+      sidebar.classList.remove('open');
+      closeSidebar();
     }
   }
 
   // Show/hide sidebar toggle button (only on module pages)
-  if (sidebarToggle) sidebarToggle.style.display = isModulePage ? 'inline-flex' : 'none';
+  if (sidebarToggle) {
+    sidebarToggle.style.display = isModulePage ? 'inline-flex' : 'none';
+    sidebarToggle.setAttribute('aria-expanded', isModulePage && !document.getElementById('course-sidebar')?.classList.contains('hidden'));
+  }
 
   // Toggle topbar brand centering class (only on home/modules pages)
   const topbar = document.getElementById('topbar');
@@ -249,8 +268,34 @@ function navigate(moduleId) {
 // ---------------------------------------------------------------------------
 function toggleSidebar() {
   const sidebar = document.getElementById('course-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const toggle = document.getElementById('btn-sidebar-toggle');
   if (!sidebar) return;
-  sidebar.classList.toggle('hidden');
+
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    const opening = !sidebar.classList.contains('open');
+    sidebar.classList.toggle('open');
+    if (backdrop) backdrop.classList.toggle('active', opening);
+    if (toggle) toggle.setAttribute('aria-expanded', opening);
+  } else {
+    sidebar.classList.toggle('hidden');
+    if (toggle) toggle.setAttribute('aria-expanded', !sidebar.classList.contains('hidden'));
+  }
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('course-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const toggle = document.getElementById('btn-sidebar-toggle');
+  if (!sidebar) return;
+
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -292,16 +337,16 @@ function renderHome() {
     </div>
 
     ${completed > 0 ? `
-      <div style="margin-top:var(--space-10);">
-        <h2 style="font-size:var(--font-size-xl);margin-bottom:var(--space-6);">Continue Where You Left Off</h2>
+      <div class="home-recent-section">
+        <h2 class="home-recent-title">Continue Where You Left Off</h2>
         <div class="home-recent">
-          ${MODULES.filter(m => progressData[m.id]?.completed).slice(0, 3).map((m, i) => `
-            <div class="card" data-navigate="${m.id}" style="margin-bottom:0;">
-              <div style="display:flex;align-items:center;gap:var(--space-3);">
-                <span style="font-size:1.2em;">${m.icon}</span>
+          ${MODULES.filter(m => progressData[m.id]?.completed).slice(0, 3).map((m) => `
+            <div class="card home-recent-card" data-navigate="${m.id}">
+              <div class="home-recent-card-inner">
+                <span class="home-recent-card-icon">${m.icon}</span>
                 <div>
-                  <div class="card__title" style="font-size:var(--font-size-sm);margin-bottom:0;">${m.title}</div>
-                  <span style="font-size:var(--font-size-xs);color:var(--color-accent);">✓ Completed</span>
+                  <div class="card__title home-recent-card-title">${m.title}</div>
+                  <span class="home-recent-card-status">✓ Completed</span>
                 </div>
               </div>
             </div>
@@ -420,7 +465,7 @@ function renderHome() {
       </div>
     </div>
 
-    <div class="attribution" style="margin-top:var(--space-12);">
+    <div class="attribution home-attribution">
       These notes are based on the original <a href="https://training.linuxfoundation.org/training/introduction-to-linux/" target="_blank" rel="noopener">
         <strong>"Introduction to Linux" (LFS101)</strong></a> course by the Linux Foundation.
     </div>
@@ -444,18 +489,18 @@ function renderModules() {
       <span class="breadcrumb__current">Modules</span>
     </nav>
 
-    <h1>🐧 Introduction to Linux <span style="color:var(--text-muted);font-weight:400;font-size:0.5em;display:block;margin-top:4px;">LFS101 Notes</span></h1>
-    <p style="font-size:var(--font-size-lg);color:var(--text-secondary);max-width:640px;margin-bottom:var(--space-8);">
+    <h1>🐧 Introduction to Linux <span class="modules-subtitle">LFS101 Notes</span></h1>
+    <p class="modules-desc">
       Personal study notes from the <strong>"Introduction to Linux" (LFS101)</strong> course by the Linux Foundation.
       Use these notes alongside the official course material.
     </p>
 
-    <div style="background:var(--bg-card);border:1px solid var(--border-card);border-radius:var(--radius-lg);padding:var(--space-6);margin-bottom:var(--space-8);box-shadow:var(--shadow-xs);">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3);">
-        <span style="font-size:var(--font-size-sm);font-weight:500;color:var(--text-heading);">Your Progress</span>
-        <span style="font-size:var(--font-size-sm);font-weight:700;color:var(--color-primary);">${completed}/${MODULES.length} modules (${pct}%)</span>
+    <div class="modules-progress-card">
+      <div class="modules-progress-header">
+        <span class="modules-progress-label">Your Progress</span>
+        <span class="modules-progress-value">${completed}/${MODULES.length} modules (${pct}%)</span>
       </div>
-      <div class="progress-bar" style="width:100%;height:8px;">
+      <div class="progress-bar" style="width:100%;height:8px;" role="progressbar" aria-valuenow="${completed}" aria-valuemin="0" aria-valuemax="${MODULES.length}" aria-label="Course progress">
         <div class="progress-bar__fill" style="width:${pct}%;"></div>
       </div>
     </div>
@@ -465,10 +510,10 @@ function renderModules() {
         const done = progressData[m.id]?.completed;
         return `
           <div class="card" data-navigate="${m.id}">
-            <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3);">
-              <span style="font-size:1.4em;line-height:1;">${m.icon}</span>
-              <span style="font-size:var(--font-size-xs);color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Module ${i + 1}</span>
-              ${done ? '<span style="margin-left:auto;background:rgba(5,150,105,.1);color:var(--color-accent);font-size:var(--font-size-xs);padding:2px 8px;border-radius:999px;font-weight:500;">✓ Done</span>' : ''}
+            <div class="module-card-header">
+              <span class="module-card-icon">${m.icon}</span>
+              <span class="module-card-num">Module ${i + 1}</span>
+              ${done ? '<span class="module-card-done">✓ Done</span>' : ''}
             </div>
             <div class="card__title">${m.title}</div>
             <div class="card__desc">${m.desc || ''}</div>
@@ -476,7 +521,7 @@ function renderModules() {
       }).join('')}
     </div>
 
-    <div class="attribution" style="margin-top:var(--space-12);">
+    <div class="attribution home-attribution">
       These notes are based on the original <a href="https://training.linuxfoundation.org/training/introduction-to-linux/" target="_blank" rel="noopener">
         <strong>"Introduction to Linux" (LFS101)</strong></a> course by the Linux Foundation.
     </div>
@@ -496,7 +541,7 @@ async function loadModule(moduleId) {
   }
 
   const el = document.getElementById('content-inner');
-  el.innerHTML = '<p style="color:var(--text-muted);">Loading…</p>';
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><span>Loading module…</span></div>';
 
   try {
     const resp = await fetch(`/modules/${moduleId}.html`);
@@ -519,7 +564,7 @@ async function loadModule(moduleId) {
 
       <div class="module-nav">
         <button class="btn btn--ghost" data-navigate-prev="${moduleId}">← Previous</button>
-        <button class="btn ${isComplete ? 'btn--ghost' : 'btn--accent'}" data-toggle-complete="${moduleId}" id="btn-complete">
+        <button class="btn ${isComplete ? 'btn--ghost' : 'btn--accent'}" data-toggle-complete="${moduleId}" id="btn-complete" aria-pressed="${isComplete}">
           ${isComplete ? '✓ Completed' : 'Mark as Complete'}
         </button>
         <button class="btn btn--ghost" data-navigate-next="${moduleId}">Next →</button>
@@ -539,7 +584,10 @@ async function loadModule(moduleId) {
     el.innerHTML = `
       <h2>Module not found</h2>
       <p>Could not load <code>${escHtml(moduleId)}.html</code>.</p>
-      <button class="btn btn--primary" data-navigate="home">Back to Home</button>
+      <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+        <button class="btn btn--primary" data-navigate="home">Back to Home</button>
+        <button class="btn btn--ghost" onclick="loadModule('${escHtml(moduleId)}')">Retry</button>
+      </div>
     `;
   }
 }
@@ -557,6 +605,7 @@ function toggleComplete(moduleId) {
 
   btn.className = `btn ${newState ? 'btn--ghost' : 'btn--accent'}`;
   btn.textContent = newState ? '✓ Completed' : 'Mark as Complete';
+  btn.setAttribute('aria-pressed', newState);
   buildCourseSidebar();
   updateCourseSidebar(moduleId);
   updateProgressUI();
@@ -710,8 +759,13 @@ function updateProgressUI() {
   // Topbar progress
   const fill = document.getElementById('progress-fill');
   const label = document.getElementById('progress-label');
+  const bar = document.querySelector('.progress-bar');
   if (fill) fill.style.width = `${pct}%`;
   if (label) label.textContent = `${pct}%`;
+  if (bar) {
+    bar.setAttribute('aria-valuenow', completed);
+    bar.setAttribute('aria-valuemax', MODULES.length);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -776,6 +830,8 @@ function bindEvents() {
 
   // Static element handlers
   document.getElementById('btn-sidebar-toggle')?.addEventListener('click', toggleSidebar);
+  document.getElementById('btn-sidebar-close')?.addEventListener('click', closeSidebar);
+  document.getElementById('sidebar-backdrop')?.addEventListener('click', closeSidebar);
   document.getElementById('btn-theme-toggle')?.addEventListener('click', toggleDarkMode);
   document.getElementById('btn-cookies-accept')?.addEventListener('click', acceptCookies);
   document.getElementById('btn-cookies-decline')?.addEventListener('click', declineCookies);

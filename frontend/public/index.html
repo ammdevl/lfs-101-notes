@@ -19,8 +19,12 @@
   <a href="#content" class="skip-link" id="skip-link">Skip to content</a>
   <div class="app">
 
+    <!-- Sidebar backdrop (mobile) -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
     <!-- Course sidebar (visible on module pages) -->
-    <aside class="course-sidebar hidden" id="course-sidebar">
+    <aside class="course-sidebar hidden" id="course-sidebar" aria-label="Course navigation">
+      <button class="course-sidebar__close" id="btn-sidebar-close" aria-label="Close sidebar">&times;</button>
       <div class="course-sidebar__header">
         <a href="#home" class="course-sidebar__brand" data-navigate="home">🐧 LFS101</a>
         <div class="course-sidebar__progress-text" id="sidebar-progress-text">0/17 complete</div>
@@ -31,7 +35,7 @@
     <!-- Main -->
     <div class="main">
       <header class="topbar" id="topbar">
-        <button class="topbar__sidebar-toggle" id="btn-sidebar-toggle" title="Toggle sidebar" style="display:none;">
+        <button class="topbar__sidebar-toggle" id="btn-sidebar-toggle" title="Toggle sidebar" aria-expanded="false" aria-controls="course-sidebar" aria-label="Toggle sidebar" style="display:none;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/>
           </svg>
@@ -40,7 +44,7 @@
           <span class="topbar__brand-icon">🐧</span>
           <span class="topbar__brand-text">LFS101 Notes</span>
         </a>
-        <button class="topbar__theme-toggle" id="btn-theme-toggle" title="Toggle dark mode">
+        <button class="topbar__theme-toggle" id="btn-theme-toggle" title="Toggle dark mode" aria-pressed="false" aria-label="Toggle dark mode">
           <svg class="theme-icon theme-icon--light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
           </svg>
@@ -51,7 +55,7 @@
         <div class="topbar__spacer"></div>
         <div class="topbar__actions" id="topbar-actions" style="display:none;">
           <div class="topbar__progress">
-            <div class="progress-bar"><div class="progress-bar__fill" id="progress-fill" style="width:0%"></div></div>
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="17" aria-label="Course progress"><div class="progress-bar__fill" id="progress-fill" style="width:0%"></div></div>
             <span id="progress-label">0%</span>
           </div>
         </div>
@@ -66,7 +70,7 @@
           <!-- Footer -->
           <footer class="footer" id="footer">
             <div class="footer__inner">
-              <span class="footer__brand"><a href="#" id="footer-scroll-top">🐧 LFS101</a></span>
+              <span class="footer__brand"><a href="#" id="footer-scroll-top" aria-label="Scroll to top">↑ Back to top</a></span>
               <span class="footer__sep">&middot;</span>
               <span class="footer__copy">&copy; 2026 &mdash; Unofficial study resource, not affiliated with the <a href="https://www.linuxfoundation.org/" target="_blank" rel="noopener">Linux Foundation</a></span>
             </div>
@@ -77,7 +81,7 @@
     </div>
 
     <!-- Cookie consent banner -->
-    <div class="cookie-banner hidden" id="cookie-banner">
+    <div class="cookie-banner hidden" id="cookie-banner" role="dialog" aria-label="Cookie consent">
       <div class="cookie-banner__content">
         <div class="cookie-banner__icon">🍪</div>
         <div class="cookie-banner__text">
