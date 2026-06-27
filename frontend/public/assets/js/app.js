@@ -116,25 +116,51 @@ function toggleDarkMode() {
 // Cookie consent
 // ---------------------------------------------------------------------------
 const COOKIE_CONSENT_KEY = 'lfs101_cookies_accepted';
+const CONSENT_MAX_AGE_DAYS = 30;
+
+function getConsent() {
+  try {
+    const raw = localStorage.getItem(COOKIE_CONSENT_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    const age = (Date.now() - data.timestamp) / (1000 * 60 * 60 * 24);
+    if (age > CONSENT_MAX_AGE_DAYS) {
+      localStorage.removeItem(COOKIE_CONSENT_KEY);
+      return null;
+    }
+    return data.value;
+  } catch {
+    // Legacy string value or corrupt data — treat as no consent
+    localStorage.removeItem(COOKIE_CONSENT_KEY);
+    return null;
+  }
+}
 
 function cookiesAccepted() {
-  return localStorage.getItem(COOKIE_CONSENT_KEY) === 'accepted';
+  return getConsent() === 'accepted';
 }
 
 function showCookieBannerIfNeeded() {
-  if (!localStorage.getItem(COOKIE_CONSENT_KEY)) {
+  if (!getConsent()) {
     const banner = document.getElementById('cookie-banner');
     if (banner) banner.classList.remove('hidden');
   }
 }
 
+function setConsent(value) {
+  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify({
+    value,
+    timestamp: Date.now(),
+  }));
+}
+
 function acceptCookies() {
-  localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
+  setConsent('accepted');
   dismissBanner();
 }
 
 function declineCookies() {
-  localStorage.setItem(COOKIE_CONSENT_KEY, 'declined');
+  setConsent('declined');
   // Clear any existing progress cookie
   setCookie(PROGRESS_COOKIE, '', -1);
   progressData = {};
