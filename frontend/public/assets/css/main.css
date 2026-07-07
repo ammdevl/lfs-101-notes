@@ -304,7 +304,8 @@ html:not([data-theme]) .theme-icon--dark { display: none; }
 }
 
 .progress-bar {
-  width: 130px;
+  width: 100%;
+  max-width: 130px;
   height: 7px;
   background: var(--border-light);
   border-radius: 999px;
@@ -950,5 +951,9 @@ html:not([data-theme]) .theme-icon--dark { display: none; }
   .home-hero__title { font-size: var(--font-size-3xl); }
   .home-stats { grid-template-columns: 1fr; }
   .home-quick-links { grid-template-columns: 1fr; }
+  .topbar__progress { max-width: 100px; }
+  .topbar__progress .progress-bar { max-width: 70px; }
+  .modules-progress-header { flex-wrap: wrap; gap: var(--space-2); }
+  .modules-progress-value { font-size: var(--font-size-xs); }
 }
 
