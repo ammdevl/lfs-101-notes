@@ -208,6 +208,9 @@ function setConsent(value) {
 
 function acceptCookies() {
   setConsent('accepted');
+  loadProgressFromCookie();
+  buildCourseSidebar();
+  updateProgressUI();
   dismissBanner();
 }
 
@@ -269,16 +272,10 @@ function navigate(moduleId) {
 
   // Show/hide course sidebar (default: open on module pages)
   if (sidebar) {
-    const isMobile = window.innerWidth <= 768;
     if (isModulePage) {
-      if (isMobile) {
-        // On mobile, sidebar stays closed until user opens it
-        sidebar.classList.remove('hidden');
-        sidebar.classList.remove('open');
-      } else {
-        sidebar.classList.remove('hidden');
-        sidebar.classList.remove('open');
-      }
+      // On module pages, sidebar is available but off-screen until toggled open
+      sidebar.classList.remove('hidden');
+      sidebar.classList.remove('open');
     } else {
       sidebar.classList.add('hidden');
       sidebar.classList.remove('open');
@@ -289,7 +286,11 @@ function navigate(moduleId) {
   // Show/hide sidebar toggle button (only on module pages)
   if (sidebarToggle) {
     sidebarToggle.style.display = isModulePage ? 'inline-flex' : 'none';
-    sidebarToggle.setAttribute('aria-expanded', isModulePage && !document.getElementById('course-sidebar')?.classList.contains('hidden'));
+    const isMobile = window.innerWidth <= 768;
+    const sidebarOpen = isMobile
+      ? sidebar?.classList.contains('open')
+      : isModulePage && !sidebar?.classList.contains('hidden');
+    sidebarToggle.setAttribute('aria-expanded', sidebarOpen);
   }
 
   // Toggle topbar brand centering class (only on home/modules pages)
@@ -319,8 +320,9 @@ function navigate(moduleId) {
     announce('Home page loaded');
   } else if (isModules) {
     announce('Modules page loaded');
-  } else if (mod) {
-    announce(`${mod.title} loaded`);
+  } else {
+    const mod = MODULES.find(m => m.id === moduleId);
+    if (mod) announce(`${mod.title} loaded`);
   }
 }
 
@@ -686,7 +688,8 @@ function toggleComplete(moduleId) {
     ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Completed'
     : 'Mark as Complete';
   btn.setAttribute('aria-pressed', newState);
-  buildCourseSidebar();
+  // Update only the specific sidebar link instead of rebuilding all 17
+  updateSidebarLink(moduleId);
   updateCourseSidebar(moduleId);
   updateProgressUI();
   announce(newState ? 'Module marked as complete' : 'Module marked as incomplete');
@@ -761,9 +764,9 @@ async function copyCode(preOrBtn, maybeBtn) {
 // ---------------------------------------------------------------------------
 function fixConsecutiveOl(html) {
   // Replace consecutive <ol><li>...</li></ol> with a single <ol>
-  return html.replace(/((?:<ol><li>.*?<\/li><\/ol>\s*)+)/g, (match) => {
+  return html.replace(/((?:<ol><li>[\s\S]*?<\/li><\/ol>\s*)+)/g, (match) => {
     const items = [];
-    const itemRegex = /<ol><li>(.*?)<\/li><\/ol>/g;
+    const itemRegex = /<ol><li>([\s\S]*?)<\/li><\/ol>/g;
     let itemMatch;
     while ((itemMatch = itemRegex.exec(match)) !== null) {
       items.push(`<li>${itemMatch[1]}</li>`);
@@ -846,6 +849,8 @@ function enhanceImages() {
       const filename = src.replace(/^\.?\/?src\//, '');
       img.src = `/src/${encodeURIComponent(filename)}`;
     }
+    // Add lazy loading for below-the-fold images
+    img.loading = 'lazy';
   });
 }
 
@@ -859,13 +864,13 @@ function updateProgressUI() {
   // Topbar progress
   const fill = document.getElementById('progress-fill');
   const label = document.getElementById('progress-label');
-  const bar = document.querySelector('.progress-bar');
   if (fill) fill.style.width = `${pct}%`;
   if (label) label.textContent = `${pct}%`;
-  if (bar) {
+  // Update all progress bars' ARIA attributes
+  document.querySelectorAll('.progress-bar').forEach(bar => {
     bar.setAttribute('aria-valuenow', completed);
     bar.setAttribute('aria-valuemax', MODULES.length);
-  }
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -882,6 +887,31 @@ function buildCourseSidebar() {
       ${progressData[m.id]?.completed ? '<span class="course-sidebar__link-check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>' : ''}
     </a>
   `).join('');
+}
+
+// Update a single sidebar link's checkmark and aria-label without rebuilding all links
+function updateSidebarLink(moduleId) {
+  const link = document.querySelector(`.course-sidebar__link[data-module="${moduleId}"]`);
+  if (!link) return;
+
+  const mod = MODULES.find(m => m.id === moduleId);
+  const done = progressData[moduleId]?.completed;
+  const i = MODULES.findIndex(m => m.id === moduleId);
+
+  // Update aria-label
+  link.setAttribute('aria-label', `Module ${i + 1}: ${mod.title}${done ? ' (completed)' : ''}`);
+
+  // Update or create/remove the checkmark
+  let check = link.querySelector('.course-sidebar__link-check');
+  if (done && !check) {
+    const span = document.createElement('span');
+    span.className = 'course-sidebar__link-check';
+    span.setAttribute('aria-hidden', 'true');
+    span.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    link.appendChild(span);
+  } else if (!done && check) {
+    check.remove();
+  }
 }
 
 function updateCourseSidebar(activeId) {
@@ -945,6 +975,8 @@ function bindEvents() {
     const navEl = e.target.closest('[data-navigate]');
     if (navEl) {
       e.preventDefault();
+      // Guard against double-fire from keyboard handler
+      if (navEl.getAttribute('data-navigating') === 'true') return;
       navigate(navEl.dataset.navigate);
       return;
     }
@@ -980,7 +1012,11 @@ function bindEvents() {
       const card = e.target.closest('.card[role="link"]');
       if (card && card.dataset.navigate) {
         e.preventDefault();
+        // Guard against double-fire: some screen readers synthesize a click
+        // after processing Enter on role='link', which would re-trigger navigate()
+        card.setAttribute('data-navigating', 'true');
         navigate(card.dataset.navigate);
+        setTimeout(() => card.removeAttribute('data-navigating'), 100);
       }
     }
   });
