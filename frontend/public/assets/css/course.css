@@ -17,78 +17,6 @@
   color: var(--text-code);
 }
 
-/* ---- Prism dark mode override ---- */
-[data-theme="dark"] code[class*="language-"],
-[data-theme="dark"] pre[class*="language-"] {
-  color: var(--text-code-inline);
-  background: transparent;
-  text-shadow: none;
-}
-[data-theme="dark"] :not(pre) > code[class*="language-"] {
-  background: var(--bg-code-inline);
-  color: var(--text-code);
-}
-[data-theme="dark"] .token.comment,
-[data-theme="dark"] .token.prolog,
-[data-theme="dark"] .token.doctype,
-[data-theme="dark"] .token.cdata {
-  color: #6b7280;
-}
-[data-theme="dark"] .token.punctuation {
-  color: #9ca3af;
-}
-[data-theme="dark"] .token.property,
-[data-theme="dark"] .token.tag,
-[data-theme="dark"] .token.boolean,
-[data-theme="dark"] .token.number,
-[data-theme="dark"] .token.constant,
-[data-theme="dark"] .token.symbol,
-[data-theme="dark"] .token.deleted {
-  color: #f472b6;
-}
-[data-theme="dark"] .token.selector,
-[data-theme="dark"] .token.attr-name,
-[data-theme="dark"] .token.string,
-[data-theme="dark"] .token.char,
-[data-theme="dark"] .token.builtin,
-[data-theme="dark"] .token.inserted {
-  color: #34d399;
-}
-[data-theme="dark"] .token.operator,
-[data-theme="dark"] .token.entity,
-[data-theme="dark"] .token.url {
-  color: #fbbf24;
-}
-[data-theme="dark"] .token.atrule,
-[data-theme="dark"] .token.attr-value,
-[data-theme="dark"] .token.keyword {
-  color: #60a5fa;
-}
-[data-theme="dark"] .token.function,
-[data-theme="dark"] .token.class-name {
-  color: #c084fc;
-}
-[data-theme="dark"] .token.regex,
-[data-theme="dark"] .token.important,
-[data-theme="dark"] .token.variable {
-  color: #fb923c;
-}
-
-/* Remove Prism text-shadow globally in dark mode */
-[data-theme="dark"] code,
-[data-theme="dark"] pre {
-  text-shadow: none !important;
-}
-
-/* Also remove any selection highlighting */
-[data-theme="dark"] code::selection,
-[data-theme="dark"] pre::selection,
-[data-theme="dark"] code *::selection,
-[data-theme="dark"] pre *::selection {
-  background: rgba(59, 130, 246, 0.3);
-  text-shadow: none;
-}
-
 /* ---- Code blocks (macOS terminal style) ---- */
 .code-block {
   position: relative;
@@ -225,7 +153,6 @@
   object-fit: contain;
   border: 1px solid var(--border-light);
   transition: box-shadow var(--transition-fast), transform var(--transition-fast);
-  loading: lazy;
 }
 .module-content figure img:hover {
   box-shadow: var(--shadow-lg);
