@@ -9,6 +9,8 @@
   --color-primary-dark:   #1e40af;
   --color-accent:         #059669;
   --color-accent-dark:    #047857;
+  --color-success:        #22c55e;
+  --color-success-bg:     rgba(34, 197, 94, 0.1);
 
   /* ---- Surfaces ---- */
   --bg-body:              #f8fafc;
@@ -16,6 +18,12 @@
   --bg-code-inline:       #f1f5f9;
   --bg-callout:           #eff6ff;
   --bg-callout-border:    #3b82f6;
+  --bg-sidebar:           #0f172a;
+  --bg-topbar:            #ffffff;
+  --bg-table-header:      #f8fafc;
+  --bg-table-row-even:    #f8fafc;
+  --bg-code-block:        #1e1e1e;
+  --bg-code-header:       #323232;
 
   /* ---- Text ---- */
   --text-heading:         #0f172a;
@@ -23,6 +31,10 @@
   --text-secondary:       #64748b;
   --text-muted:           #94a3b8;
   --text-link:            var(--color-primary);
+  --text-code:            #92400e;
+  --text-code-inline:     #d1d1d6;
+  --text-code-comment:    #888888;
+  --text-code-title:      #8e8e93;
 
   /* ---- Borders & shadows ---- */
   --border-light:         #e2e8f0;
@@ -30,6 +42,8 @@
   --shadow-xs:            0 1px 2px rgba(0,0,0,.04);
   --shadow-sm:            0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
   --shadow-md:            0 4px 6px -1px rgba(0,0,0,.06), 0 2px 4px -2px rgba(0,0,0,.04);
+  --shadow-lg:            0 8px 32px rgba(0,0,0,.15);
+  --shadow-card-hover:    0 6px 20px rgba(0,0,0,.12);
 
   /* ---- Radius ---- */
   --radius-sm:            6px;
@@ -79,22 +93,36 @@
   --color-primary-dark:   #2563eb;
   --color-accent:         #10b981;
   --color-accent-dark:    #059669;
+  --color-success:        #22c55e;
+  --color-success-bg:     rgba(34, 197, 94, 0.15);
 
   --bg-body:              #0f172a;
   --bg-card:              #1e293b;
   --bg-code-inline:       #334155;
   --bg-callout:           #1e3a5f;
   --bg-callout-border:    #3b82f6;
+  --bg-sidebar:           #020617;
+  --bg-topbar:            #1e293b;
+  --bg-table-header:      #1e293b;
+  --bg-table-row-even:    rgba(30, 41, 59, 0.5);
+  --bg-code-block:        #1e1e1e;
+  --bg-code-header:       #323232;
 
   --text-heading:         #f1f5f9;
   --text-primary:         #cbd5e1;
   --text-secondary:       #94a3b8;
   --text-muted:           #64748b;
   --text-link:            var(--color-primary-light);
+  --text-code:            #fbbf24;
+  --text-code-inline:     #d1d1d6;
+  --text-code-comment:    #888888;
+  --text-code-title:      #8e8e93;
 
   --border-light:         #334155;
   --border-card:          #334155;
   --shadow-xs:            0 1px 2px rgba(0,0,0,.2);
   --shadow-sm:            0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
   --shadow-md:            0 4px 6px -1px rgba(0,0,0,.3), 0 2px 4px -2px rgba(0,0,0,.2);
+  --shadow-lg:            0 8px 32px rgba(0,0,0,.4);
+  --shadow-card-hover:    0 6px 20px rgba(0,0,0,.35);
 }
