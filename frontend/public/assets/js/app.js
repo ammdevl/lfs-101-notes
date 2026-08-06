@@ -195,7 +195,14 @@ function cookiesAccepted() {
 function showCookieBannerIfNeeded() {
   if (!getConsent()) {
     const banner = document.getElementById('cookie-banner');
-    if (banner) banner.classList.remove('hidden');
+    if (banner) {
+      banner.classList.remove('hidden');
+      // Focus the first interactive element in the banner
+      const firstBtn = banner.querySelector('button');
+      if (firstBtn) firstBtn.focus();
+      // Add focus trap
+      banner.addEventListener('keydown', trapFocusInBanner);
+    }
   }
 }
 
@@ -229,6 +236,33 @@ function dismissBanner() {
   if (banner) {
     banner.style.animation = 'slideDownBanner .25s ease forwards';
     setTimeout(() => banner.classList.add('hidden'), 250);
+    // Remove focus trap listener
+    banner.removeEventListener('keydown', trapFocusInBanner);
+  }
+}
+
+// Focus trap for cookie banner
+function trapFocusInBanner(e) {
+  if (e.key !== 'Tab') return;
+  const banner = document.getElementById('cookie-banner');
+  if (!banner || banner.classList.contains('hidden')) return;
+
+  const focusable = banner.querySelectorAll('button:not([disabled])');
+  if (focusable.length === 0) return;
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (e.shiftKey) {
+    if (document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    }
+  } else {
+    if (document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   }
 }
 
@@ -614,7 +648,7 @@ async function loadModule(moduleId) {
   }
 
   const el = document.getElementById('content-inner');
-  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><span>Loading module…</span></div>';
+  el.innerHTML = '<div class="loading-state" role="status" aria-live="polite"><div class="loading-spinner"></div><span>Loading module…</span></div>';
 
   try {
     const resp = await fetch(`/modules/${moduleId}.html`);
