@@ -314,6 +314,7 @@ function navigate(moduleId) {
   const isHome = moduleId === 'home';
   const isModules = moduleId === 'modules';
   const isModulePage = !isHome && !isModules;
+  const isMobile = window.innerWidth <= 768;
 
   currentModuleId = moduleId;
   location.hash = moduleId;
@@ -321,13 +322,24 @@ function navigate(moduleId) {
   const sidebar = document.getElementById('course-sidebar');
   const actions = document.getElementById('topbar-actions');
   const sidebarToggle = document.getElementById('btn-sidebar-toggle');
+  const contentEl = document.getElementById('content-inner');
 
-  // Show/hide course sidebar (default: open on module pages)
+  // Page transition: fade out current content
+  if (contentEl) {
+    contentEl.style.opacity = '0';
+    contentEl.style.transition = 'opacity 0.12s ease';
+  }
+
+  // Show/hide course sidebar
   if (sidebar) {
     if (isModulePage) {
-      // On module pages, sidebar is available but off-screen until toggled open
       sidebar.classList.remove('hidden');
-      sidebar.classList.remove('open');
+      // Auto-open sidebar on desktop, close on mobile
+      if (isMobile) {
+        sidebar.classList.remove('open');
+      } else {
+        sidebar.classList.remove('hidden');
+      }
     } else {
       sidebar.classList.add('hidden');
       sidebar.classList.remove('open');
@@ -338,7 +350,6 @@ function navigate(moduleId) {
   // Show/hide sidebar toggle button (only on module pages)
   if (sidebarToggle) {
     sidebarToggle.style.display = isModulePage ? 'inline-flex' : 'none';
-    const isMobile = window.innerWidth <= 768;
     const sidebarOpen = isMobile
       ? sidebar?.classList.contains('open')
       : isModulePage && !sidebar?.classList.contains('hidden');
@@ -349,8 +360,8 @@ function navigate(moduleId) {
   const topbar = document.getElementById('topbar');
   if (topbar) topbar.classList.toggle('topbar--standalone', !isModulePage);
 
-  // Show/hide topbar actions (hide on home page)
-  if (actions) actions.style.display = isHome ? 'none' : 'flex';
+  // Show/hide topbar actions (hide on home and modules pages)
+  if (actions) actions.style.display = (isHome || isModules) ? 'none' : 'flex';
 
   if (isHome) {
     renderHome();
@@ -363,9 +374,18 @@ function navigate(moduleId) {
   // Update sidebar active state
   if (isModulePage) updateCourseSidebar(moduleId);
 
-  // Focus management - move focus to content for screen readers
-  const contentEl = document.getElementById('content');
-  if (contentEl) contentEl.scrollTop = 0;
+  // Focus management: move focus to h1 for screen readers
+  requestAnimationFrame(() => {
+    // Fade in new content
+    if (contentEl) {
+      contentEl.style.opacity = '1';
+    }
+    const h1 = document.querySelector('.content h1, .home-hero__title');
+    if (h1) {
+      h1.setAttribute('tabindex', '-1');
+      h1.focus({ preventScroll: true });
+    }
+  });
 
   // Announce page change for screen readers
   if (isHome) {
@@ -421,7 +441,7 @@ function renderHome() {
   const completed = Object.values(progressData).filter((p) => p.completed).length;
   const pct = MODULES.length ? Math.round((completed / MODULES.length) * 100) : 0;
 
-  el.innerHTML = `
+  el.innerHTML = `<div class="content-fade-in">
     <div class="home-hero">
       <div class="home-hero__icon">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
@@ -594,7 +614,7 @@ function renderHome() {
       These notes are based on the original <a href="https://training.linuxfoundation.org/training/introduction-to-linux/" target="_blank" rel="noopener">
         <strong>"Introduction to Linux" (LFS101)</strong></a> course by the Linux Foundation.
     </div>
-  `;
+  </div>`;
 
   updateProgressUI();
 }
@@ -607,7 +627,7 @@ function renderModules() {
   const completed = Object.values(progressData).filter((p) => p.completed).length;
   const pct = MODULES.length ? Math.round((completed / MODULES.length) * 100) : 0;
 
-  el.innerHTML = `
+  el.innerHTML = `<div class="content-fade-in">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="#home" data-navigate="home" class="breadcrumb__parent">Home</a>
       <span class="breadcrumb__sep" aria-hidden="true">/</span>
@@ -650,7 +670,7 @@ function renderModules() {
       These notes are based on the original <a href="https://training.linuxfoundation.org/training/introduction-to-linux/" target="_blank" rel="noopener">
         <strong>"Introduction to Linux" (LFS101)</strong></a> course by the Linux Foundation.
     </div>
-  `;
+  </div>`;
 
   updateProgressUI();
 }
@@ -686,17 +706,17 @@ async function loadModule(moduleId) {
         <span class="breadcrumb__current" aria-current="page">${mod ? mod.title : moduleId}</span>
       </nav>
 
-      <div class="module-content">${html}</div>
+      <div class="module-content content-fade-in">${html}</div>
 
       <div class="module-nav">
-        <button class="btn btn--ghost" data-navigate-prev="${moduleId}">
+        <button class="btn btn--ghost" data-navigate-prev="${moduleId}" title="Previous module (Alt+Left)">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
           Previous
         </button>
         <button class="btn ${isComplete ? 'btn--ghost' : 'btn--accent'}" data-toggle-complete="${moduleId}" id="btn-complete" aria-pressed="${isComplete}">
           ${isComplete ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Completed' : 'Mark as Complete'}
         </button>
-        <button class="btn btn--ghost" data-navigate-next="${moduleId}">
+        <button class="btn btn--ghost" data-navigate-next="${moduleId}" title="Next module (Alt+Right)">
           Next
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
@@ -1029,6 +1049,8 @@ function bindEvents() {
       e.preventDefault();
       // Guard against double-fire from keyboard handler
       if (navEl.getAttribute('data-navigating') === 'true') return;
+      // Close mobile sidebar when navigating
+      if (window.innerWidth <= 768) closeSidebar();
       navigate(navEl.dataset.navigate);
       return;
     }
@@ -1060,6 +1082,18 @@ function bindEvents() {
 
   // Keyboard navigation for cards
   document.addEventListener('keydown', (e) => {
+    // Alt+Left/Right for module navigation
+    if (e.altKey && e.key === 'ArrowLeft') {
+      e.preventDefault();
+      navigatePrev(currentModuleId);
+      return;
+    }
+    if (e.altKey && e.key === 'ArrowRight') {
+      e.preventDefault();
+      navigateNext(currentModuleId);
+      return;
+    }
+
     if (e.key === 'Enter' || e.key === ' ') {
       const card = e.target.closest('.card[role="link"]');
       if (card && card.dataset.navigate) {
