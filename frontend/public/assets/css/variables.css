@@ -83,7 +83,7 @@
   --transition-normal:    250ms cubic-bezier(.4,0,.2,1);
 
   /* ---- Focus ---- */
-  --focus-ring:           0 0 0 2px var(--bg-card), 0 0 0 4px var(--color-primary);
+  --focus-ring:           0 0 0 2px var(--bg-card), 0 0 0 4px #2563eb;
 }
 
 /* ---- Dark mode ---- */
