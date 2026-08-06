@@ -267,6 +267,23 @@ function trapFocusInBanner(e) {
 }
 
 // ---------------------------------------------------------------------------
+// Scroll-to-top FAB
+// ---------------------------------------------------------------------------
+function initScrollTopFab() {
+  const fab = document.getElementById('scroll-top-fab');
+  const content = document.getElementById('content');
+  if (!fab || !content) return;
+
+  content.addEventListener('scroll', () => {
+    fab.classList.toggle('visible', content.scrollTop > 300);
+  });
+
+  fab.addEventListener('click', () => {
+    content.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Init
 // ---------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
@@ -275,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildCourseSidebar();
   bindEvents();
   showCookieBannerIfNeeded();
+  initScrollTopFab();
 
   // Set initial ARIA state for dark mode toggle
   const themeBtn = document.getElementById('btn-theme-toggle');
@@ -591,7 +609,7 @@ function renderModules() {
 
   el.innerHTML = `
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="#home" data-navigate="home">Home</a>
+      <a href="#home" data-navigate="home" class="breadcrumb__parent">Home</a>
       <span class="breadcrumb__sep" aria-hidden="true">/</span>
       <span class="breadcrumb__current" aria-current="page">Modules</span>
     </nav>
@@ -648,7 +666,7 @@ async function loadModule(moduleId) {
   }
 
   const el = document.getElementById('content-inner');
-  el.innerHTML = '<div class="loading-state" role="status" aria-live="polite"><div class="loading-spinner"></div><span>Loading module…</span></div>';
+  el.innerHTML = '<div class="loading-state" role="status" aria-live="polite"><div class="skeleton skeleton-heading"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line skeleton-line--medium"></div><div class="skeleton skeleton-line skeleton-line--short"></div><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line skeleton-line--medium"></div><span class="sr-only">Loading module…</span></div>';
 
   try {
     const resp = await fetch(`/modules/${moduleId}.html`);
@@ -661,9 +679,9 @@ async function loadModule(moduleId) {
 
     el.innerHTML = `
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="#home" data-navigate="home">Home</a>
+        <a href="#home" data-navigate="home" class="breadcrumb__parent">Home</a>
         <span class="breadcrumb__sep" aria-hidden="true">/</span>
-        <a href="#modules" data-navigate="modules">Modules</a>
+        <a href="#modules" data-navigate="modules" class="breadcrumb__parent">Modules</a>
         <span class="breadcrumb__sep" aria-hidden="true">/</span>
         <span class="breadcrumb__current" aria-current="page">${mod ? mod.title : moduleId}</span>
       </nav>
