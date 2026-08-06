@@ -349,8 +349,8 @@ function navigate(moduleId) {
   const topbar = document.getElementById('topbar');
   if (topbar) topbar.classList.toggle('topbar--standalone', !isModulePage);
 
-  // Show/hide topbar actions
-  if (actions) actions.style.display = 'flex';
+  // Show/hide topbar actions (hide on home page)
+  if (actions) actions.style.display = isHome ? 'none' : 'flex';
 
   if (isHome) {
     renderHome();
