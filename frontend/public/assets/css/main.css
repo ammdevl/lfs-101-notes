@@ -50,6 +50,11 @@ a:focus-visible,
   box-shadow: var(--focus-ring);
   outline: none;
 }
+/* Suppress focus ring on programmatically focused elements (e.g. h1 for a11y) */
+[tabindex="-1"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
 
 /* ---- Reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
