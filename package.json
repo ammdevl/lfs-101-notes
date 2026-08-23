@@ -3,10 +3,12 @@
   "description": "Personal study notes from the Introduction to Linux (LFS101) course by the Linux Foundation",
   "version": "2.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:render": "DEPLOY_TARGET=render next build",
     "start": "npx serve out",
     "lint": "next lint"
   },
