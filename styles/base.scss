@@ -14,6 +14,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
   transition: background-color 0.2s ease, color 0.2s ease;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
@@ -22,6 +27,19 @@ body {
   line-height: 1.7;
   overflow-x: hidden;
   min-height: 100vh;
+}
+
+/* Smooth theme switching on key surfaces.
+   Components that already define their own transitions
+   (.card, .home-feature, .home-quick-link, .progress-bar__fill) are excluded. */
+body,
+.topbar,
+.footer,
+.home-stat,
+.modules-progress-card,
+.cookie-banner__content,
+.progress-bar {
+  @apply transition-colors duration-normal;
 }
 
 /* Dark mode body */
@@ -49,6 +67,7 @@ h4 { font-size: theme("fontSize.h4"); }
 a {
   @apply text-text-link transition-colors duration-fast;
   text-decoration: none;
+  text-underline-offset: 3px;
   &:hover {
     @apply underline;
   }
@@ -56,6 +75,23 @@ a {
 
 .dark a {
   @apply text-darkmode-text-link;
+}
+
+/* Composite link-style components must never inherit the global
+   hover underline (a:hover outranks their own `no-underline` utility). */
+.btn,
+.card,
+.home-quick-link,
+.topbar__brand,
+.course-sidebar__link,
+.course-sidebar__brand,
+.course-sidebar__home-btn,
+.skip-link {
+  &,
+  &:hover,
+  &:focus-visible {
+    text-decoration: none;
+  }
 }
 
 /* Images */

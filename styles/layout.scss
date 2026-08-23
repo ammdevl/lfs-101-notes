@@ -43,7 +43,7 @@
 }
 
 .topbar__brand {
-  @apply flex items-center gap-2 text-text-heading font-secondary font-bold text-lg no-underline;
+  @apply flex items-center gap-2 text-text-heading font-secondary font-bold text-lg no-underline -mx-2 px-2 py-1 rounded-lg transition-colors duration-fast;
   &:hover {
     @apply bg-code-inline no-underline;
   }
@@ -69,7 +69,7 @@
 }
 
 .topbar__theme-toggle {
-  @apply p-2 rounded-lg text-text-secondary transition-colors duration-fast;
+  @apply relative p-2 rounded-lg text-text-secondary transition-colors duration-fast;
   &:hover {
     @apply bg-border/50;
   }
@@ -80,6 +80,28 @@
   &:hover {
     @apply bg-darkmode-border/50;
   }
+}
+
+/* Theme toggle icons – CSS-driven so the correct icon renders on first
+   paint (no mount flicker) and crossfades/rotates on switch. */
+.theme-icon {
+  transition: opacity theme("transitionDuration.normal") ease, transform 300ms ease;
+}
+
+.theme-icon--sun {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+
+html.dark .theme-icon--sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+html.dark .theme-icon--moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.4);
 }
 
 .topbar__spacer {
@@ -177,8 +199,9 @@
     @apply bg-white/10 text-white;
   }
 
-  &.focus-visible {
-    @apply outline-2 outline-white outline-offset-[-2px];
+  &:focus-visible {
+    @apply outline-2 outline-offset-[-2px];
+    outline-color: rgba(255, 255, 255, 0.9);
   }
 }
 
