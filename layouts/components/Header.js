@@ -2,15 +2,16 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import ProgressTracker from "./ProgressTracker";
 import Link from "next/link";
 
-const Header = ({ showProgress = false, showSidebarToggle = false, sidebarOpen, onToggleSidebar }) => {
+const Header = ({ showProgress = false, showSidebarToggle = false, sidebarOpen, onToggleSidebar, inset = false }) => {
   return (
-    <header className="topbar">
+    <header className={`topbar ${inset ? "topbar--inset" : ""}`}>
       {showSidebarToggle && (
         <button
           className="topbar__sidebar-toggle"
           onClick={onToggleSidebar}
           aria-label="Toggle sidebar"
           aria-expanded={sidebarOpen}
+          aria-controls="course-sidebar"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2" />

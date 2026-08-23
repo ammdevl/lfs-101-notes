@@ -26,9 +26,11 @@
 }
 
 .dark .btn--primary {
-  @apply bg-darkmode-primary;
+  /* #1e40af keeps white text at ~8.6:1 contrast on dark backgrounds;
+     hover brightens (dark-mode convention) instead of darkening. */
+  @apply bg-primary-dark text-white;
   &:hover {
-    @apply bg-primary;
+    @apply bg-darkmode-primary text-white;
   }
 }
 
