@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "cp -r out/. .",
     "build:render": "next build",
+    "postbuild:render": "cp -r out/. .",
     "render:build": "next build && cp -r out/. .",
     "start": "npx serve out",
     "lint": "next lint"
