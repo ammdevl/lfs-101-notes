@@ -5,7 +5,14 @@
 /* components layer - imported via style.scss */
 /* ---- Buttons ---- */
 .btn {
-  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-fast cursor-pointer border-none;
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-fast cursor-pointer border-none no-underline select-none;
+  &:hover,
+  &:focus-visible {
+    @apply no-underline;
+  }
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
   &:disabled {
     @apply opacity-50 cursor-not-allowed;
   }
