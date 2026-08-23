@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:render": "next build",
     "start": "npx serve out",
     "lint": "next lint"
   },
