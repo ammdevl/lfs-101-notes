@@ -1,0 +1,109 @@
+/* =========================================================================
+   Base styles – Reset, typography, global elements
+   ========================================================================= */
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body {
+  @apply font-primary text-text bg-body;
+  font-size: theme("fontSize.base");
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Dark mode body */
+.dark body,
+.dark {
+  @apply bg-darkmode-body text-darkmode-text;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-secondary text-text-heading font-bold;
+  line-height: 1.3;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  @apply text-darkmode-text-heading;
+}
+
+h1 { font-size: theme("fontSize.h1"); }
+h2 { font-size: theme("fontSize.h2"); }
+h3 { font-size: theme("fontSize.h3"); }
+h4 { font-size: theme("fontSize.h4"); }
+
+/* Links */
+a {
+  @apply text-text-link transition-colors duration-fast;
+  text-decoration: none;
+  &:hover {
+    @apply underline;
+  }
+}
+
+.dark a {
+  @apply text-darkmode-text-link;
+}
+
+/* Images */
+img {
+  @apply max-w-full h-auto;
+}
+
+/* Skip link (accessibility) */
+.skip-link {
+  @apply absolute -top-full left-4 z-[9999] px-4 py-2 bg-primary text-white font-semibold text-sm rounded-b-md no-underline transition-all duration-200;
+  &:focus {
+    @apply top-0 text-white no-underline;
+  }
+}
+
+/* Focus states */
+:focus-visible {
+  @apply outline-2 outline-offset-2;
+  outline-color: #1a56db;
+  border-radius: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  box-shadow: 0 0 0 2px theme("colors.body"), 0 0 0 4px #1a56db;
+  @apply outline-none;
+}
+
+.dark button:focus-visible,
+.dark a:focus-visible,
+.dark [tabindex]:focus-visible {
+  box-shadow: 0 0 0 2px theme("colors.darkmode.body"), 0 0 0 4px #3b82f6;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Screen reader only */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
