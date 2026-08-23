@@ -1,0 +1,426 @@
+/* =========================================================================
+ Layout styles – Sidebar, header, footer, page structure
+ ========================================================================= */
+
+/* App shell */
+.app {
+  @apply flex min-h-screen;
+}
+
+/* ---- Topbar ---- */
+.topbar {
+  @apply flex items-center h-topbar px-4 bg-white border-b border-border;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  flex-shrink: 0;
+}
+
+.dark .topbar {
+  @apply bg-darkmode-body border-darkmode-border;
+}
+
+.topbar--standalone {
+  @apply justify-center;
+}
+
+.topbar--standalone .topbar__brand {
+  margin-left: 20%;
+}
+
+.topbar__sidebar-toggle {
+  @apply p-2 rounded-lg text-text-secondary transition-colors duration-fast mr-3;
+  &:hover {
+    @apply bg-border/50;
+  }
+}
+
+.dark .topbar__sidebar-toggle {
+  @apply text-darkmode-text-secondary;
+  &:hover {
+    @apply bg-darkmode-border/50;
+  }
+}
+
+.topbar__brand {
+  @apply flex items-center gap-2 text-text-heading font-secondary font-bold text-lg no-underline;
+  &:hover {
+    @apply bg-code-inline no-underline;
+  }
+}
+
+.dark .topbar__brand {
+  @apply text-darkmode-text-heading;
+  &:hover {
+    @apply bg-darkmode-code-inline;
+  }
+}
+
+.topbar__brand-icon {
+  @apply text-primary;
+}
+
+.dark .topbar__brand-icon {
+  @apply text-darkmode-primary;
+}
+
+.topbar__brand-text {
+  letter-spacing: -0.02em;
+}
+
+.topbar__theme-toggle {
+  @apply p-2 rounded-lg text-text-secondary transition-colors duration-fast;
+  &:hover {
+    @apply bg-border/50;
+  }
+}
+
+.dark .topbar__theme-toggle {
+  @apply text-darkmode-text-secondary;
+  &:hover {
+    @apply bg-darkmode-border/50;
+  }
+}
+
+.topbar__spacer {
+  @apply flex-1;
+}
+
+.topbar__actions {
+  @apply flex items-center gap-4;
+}
+
+.topbar__progress {
+  @apply flex items-center gap-3;
+}
+
+/* ---- Course Sidebar ---- */
+.course-sidebar {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  z-index: 40;
+  width: 280px;
+  height: calc(100vh - 56px);
+  background: #0f172a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.1) transparent;
+}
+
+.course-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.course-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.course-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.15);
+  border-radius: 2px;
+}
+
+.course-sidebar--hidden,
+.course-sidebar.hidden,
+.course-sidebar.closed {
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+.course-sidebar__close {
+  @apply absolute top-3 right-3 p-1.5 rounded-lg text-white/50 transition-colors duration-fast z-10;
+  &:hover {
+    @apply bg-white/10 text-white;
+  }
+}
+
+.course-sidebar__header {
+  @apply flex items-center justify-between px-4 py-3 border-b border-white/10;
+}
+
+.course-sidebar__brand {
+  @apply flex items-center gap-2 text-white font-semibold no-underline;
+  &:hover {
+    @apply text-white/80 no-underline;
+  }
+}
+
+.course-sidebar__brand svg {
+  @apply text-primary;
+}
+
+.dark .course-sidebar__brand svg {
+  @apply text-darkmode-primary;
+}
+
+.course-sidebar__progress-text {
+  @apply text-xs text-white/50;
+}
+
+.course-sidebar__nav {
+  @apply flex-1 overflow-y-auto py-2;
+}
+
+.course-sidebar__link {
+  @apply flex items-center gap-3 px-4 py-2 text-sm text-white/70 no-underline transition-colors duration-fast;
+  &:hover {
+    @apply bg-white/5 text-white no-underline;
+  }
+
+  &.active {
+    @apply bg-white/10 text-white;
+  }
+
+  &.focus-visible {
+    @apply outline-2 outline-white outline-offset-[-2px];
+  }
+}
+
+.course-sidebar__link.active .course-sidebar__link-num {
+  @apply bg-primary text-white;
+}
+
+.course-sidebar__link-num {
+  @apply w-6 h-6 flex items-center justify-center text-xs rounded-full bg-white/10 flex-shrink-0;
+}
+
+.course-sidebar__link-check {
+  @apply ml-auto text-green-400;
+}
+
+.course-sidebar__link-check svg {
+  @apply w-3.5 h-3.5;
+}
+
+.course-sidebar__footer {
+  @apply px-4 py-3 border-t border-white/10;
+}
+
+.course-sidebar__home-btn {
+  @apply flex items-center gap-2 text-sm text-white/70 no-underline transition-colors duration-fast;
+  &:hover {
+    @apply text-white no-underline;
+  }
+}
+
+/* ---- Sidebar backdrop (mobile) ---- */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 35;
+  display: none;
+  transition: opacity 0.25s ease;
+}
+
+.sidebar-backdrop.active {
+  display: block;
+}
+
+@media (min-width: 769px) {
+  .sidebar-backdrop {
+    display: none !important;
+  }
+}
+
+/* ---- Main content area ---- */
+.main {
+  @apply flex-1 flex flex-col min-w-0;
+}
+
+.app--sidebar .main {
+  margin-left: 280px;
+  transition: margin-left 0.25s ease;
+}
+
+.app--sidebar:has(.course-sidebar.closed) .main {
+  margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .app--sidebar .main {
+    margin-left: 0;
+  }
+}
+
+.split-layout {
+  @apply flex-1 flex;
+}
+
+.split-layout__content {
+  @apply flex-1;
+}
+
+/* ---- Content container ---- */
+.content {
+  @apply max-w-4xl mx-auto px-6 py-8 w-full;
+}
+
+.content h1 {
+  @apply text-text-heading font-secondary font-bold mb-4;
+  font-size: theme("fontSize.h1");
+}
+
+.dark .content h1 {
+  @apply text-darkmode-text-heading;
+}
+
+.content h2 {
+  @apply text-text-heading font-secondary font-bold mt-8 mb-3 pb-2;
+  font-size: theme("fontSize.h2");
+  border-bottom: 2px solid theme("colors.border.DEFAULT");
+}
+
+.dark .content h2 {
+  @apply text-darkmode-text-heading;
+  border-bottom-color: theme("colors.darkmode.border.DEFAULT");
+}
+
+.content h3 {
+  @apply text-text-heading font-secondary font-semibold mt-6 mb-2;
+  font-size: theme("fontSize.h3");
+}
+
+.dark .content h3 {
+  @apply text-darkmode-text-heading;
+}
+
+/* ---- Footer ---- */
+.footer {
+  @apply border-t border-border py-6;
+}
+
+.dark .footer {
+  @apply border-darkmode-border;
+}
+
+.footer__inner {
+  @apply flex items-center justify-center gap-2 text-sm text-text-secondary flex-wrap;
+}
+
+.footer__brand a {
+  @apply flex items-center gap-1 text-text-link no-underline;
+  &:hover {
+    @apply no-underline;
+  }
+}
+
+.footer__sep {
+  @apply text-text-muted;
+}
+
+.footer__copy a {
+  @apply text-text-link;
+}
+
+/* ---- Scroll to top FAB ---- */
+.scroll-top-fab {
+  @apply fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-primary text-white shadow-lg flex items-center justify-center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: all 0.25s ease;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  &:hover {
+    @apply bg-primary-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.dark .scroll-top-fab {
+  @apply bg-darkmode-primary;
+  &:hover {
+    @apply bg-primary;
+  }
+}
+
+/* ---- Cookie banner ---- */
+.cookie-banner {
+  @apply fixed bottom-0 left-0 right-0 z-50 p-4;
+}
+
+.cookie-banner.hidden {
+  display: none;
+}
+
+.cookie-banner__content {
+  @apply max-w-2xl mx-auto bg-white rounded-xl shadow-lg border border-border p-4 flex items-center gap-4;
+}
+
+.dark .cookie-banner__content {
+  @apply bg-darkmode-body border-darkmode-border;
+}
+
+.cookie-banner__icon {
+  @apply text-primary flex-shrink-0;
+}
+
+.cookie-banner__text {
+  @apply flex-1;
+  strong { @apply block text-text-heading; }
+  p { @apply text-sm text-text-secondary mt-1; }
+}
+
+.cookie-banner__actions {
+  @apply flex gap-2 flex-shrink-0;
+}
+
+/* ---- Progress bar ---- */
+.progress-bar {
+  @apply w-full h-2 rounded-full bg-border overflow-hidden;
+}
+
+.dark .progress-bar {
+  @apply bg-darkmode-border;
+}
+
+.progress-bar__fill {
+  @apply h-full bg-primary rounded-full transition-all duration-normal;
+}
+
+.dark .progress-bar__fill {
+  @apply bg-darkmode-primary;
+}
+
+/* ---- Breadcrumb ---- */
+.breadcrumb {
+  @apply flex items-center gap-2 text-sm text-text-secondary mb-6;
+}
+
+.breadcrumb a {
+  @apply text-text-link no-underline;
+  &:hover {
+    @apply no-underline underline;
+  }
+}
+
+.breadcrumb__sep {
+  @apply text-text-muted opacity-50;
+}
+
+.breadcrumb__current {
+  @apply text-text-heading font-medium;
+}
+
+.dark .breadcrumb__current {
+  @apply text-darkmode-text-heading;
+}

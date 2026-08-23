@@ -3,6 +3,10 @@ node_modules/
 .pnp
 .pnp.js
 
+# Next.js
+.next/
+out/
+
 # Testing
 coverage/
 
@@ -34,8 +38,9 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Docker
-.docker/
-
 # Claude
 .claude/
+
+# Playwright
+.playwright-mcp/
+
