@@ -41,6 +41,14 @@
   }
 }
 
+.dark .btn--accent {
+  /* Light surface + dark text: unmistakably visible on the dark body */
+  @apply bg-emerald-400 text-slate-900;
+  &:hover {
+    @apply bg-emerald-300 text-slate-900;
+  }
+}
+
 .btn--ghost {
   @apply bg-transparent text-text-secondary border border-border;
   &:hover {

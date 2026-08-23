@@ -231,7 +231,7 @@ html.dark .theme-icon--moon {
 }
 
 .course-sidebar__footer {
-  @apply px-4 py-3 border-t border-white/10;
+  @apply px-4 py-6 border-t border-white/10 flex-shrink-0;
 }
 
 .course-sidebar__home-btn {

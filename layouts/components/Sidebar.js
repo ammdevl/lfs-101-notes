@@ -17,6 +17,14 @@ const Sidebar = ({ isOpen, onClose }) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
+  // On mobile the drawer overlays the page, so close it after navigating.
+  // On desktop keep it open so users can hop between modules.
+  const handleNavClick = () => {
+    if (typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches) {
+      onClose();
+    }
+  };
+
   return (
     <>
       {/* Mobile backdrop */}
@@ -42,7 +50,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 key={m.id}
                 href={`/modules/${m.id}/`}
                 className={`course-sidebar__link ${active ? "active" : ""}`}
-                onClick={onClose}
+                onClick={handleNavClick}
                 aria-current={active ? "page" : undefined}
               >
                 <span className="course-sidebar__link-num" aria-hidden="true">{i + 1}</span>
