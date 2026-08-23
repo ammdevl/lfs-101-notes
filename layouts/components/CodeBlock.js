@@ -30,6 +30,9 @@ const CodeBlock = ({ children }) => {
 
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+
+    const announcer = document.getElementById("sr-announcer");
+    if (announcer) announcer.textContent = "Code copied to clipboard";
   };
 
   return (

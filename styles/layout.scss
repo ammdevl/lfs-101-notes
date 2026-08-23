@@ -24,6 +24,11 @@
   @apply justify-center;
 }
 
+/* Extra horizontal breathing room (home page only) */
+.topbar--inset {
+  @apply px-6 sm:px-10;
+}
+
 .topbar--standalone .topbar__brand {
   margin-left: 20%;
 }
@@ -119,11 +124,11 @@ html.dark .theme-icon--moon {
 /* ---- Course Sidebar ---- */
 .course-sidebar {
   position: fixed;
-  top: 56px;
+  top: 0;
   left: 0;
   z-index: 40;
   width: 280px;
-  height: calc(100vh - 56px);
+  height: 100vh;
   background: #0f172a;
   color: #fff;
   display: flex;
@@ -153,6 +158,9 @@ html.dark .theme-icon--moon {
 .course-sidebar.closed {
   transform: translateX(-100%);
   pointer-events: none;
+  /* Remove from tab order only after the slide-out animation finishes */
+  visibility: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.3s;
 }
 
 .course-sidebar__close {
@@ -163,7 +171,8 @@ html.dark .theme-icon--moon {
 }
 
 .course-sidebar__header {
-  @apply flex items-center justify-between px-4 py-3 border-b border-white/10;
+  @apply flex items-center px-4 border-b border-white/10 flex-shrink-0;
+  height: theme("spacing.topbar");
 }
 
 .course-sidebar__brand {
@@ -370,9 +379,9 @@ html.dark .theme-icon--moon {
 }
 
 .dark .scroll-top-fab {
-  @apply bg-darkmode-primary;
+  @apply bg-primary-dark;
   &:hover {
-    @apply bg-primary;
+    @apply bg-darkmode-primary;
   }
 }
 
