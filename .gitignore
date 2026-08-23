@@ -10,6 +10,7 @@ out/
 # Static export copied to repo root by `npm run render:build`
 /index.html
 /404.html
+/404/
 /_next/
 /modules/
 /src/
