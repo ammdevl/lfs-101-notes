@@ -4,11 +4,11 @@ import MODULES from "@data/modules";
 import Link from "next/link";
 
 const HomePage = () => {
-  const { completed, isCompleted } = useProgress();
+  const { completed } = useProgress();
   const pct = MODULES.length ? Math.round((completed / MODULES.length) * 100) : 0;
 
   return (
-    <Base>
+    <Base topbarInset>
       {/* Hero */}
       <div className="home-hero">
         <div className="home-hero__icon">
@@ -56,33 +56,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
-      {/* Continue where you left off */}
-      {completed > 0 && (
-        <div className="home-section">
-          <h2 className="home-section__title">Continue Where You Left Off</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {MODULES.filter((m) => isCompleted(m.id))
-              .slice(0, 3)
-              .map((m) => (
-                <Link key={m.id} href={`/modules/${m.id}/`} className="card no-underline">
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg">{m.icon}</span>
-                    <div>
-                      <div className="card__title">{m.title}</div>
-                      <span className="flex items-center gap-1 text-xs text-emerald-600 font-medium mt-1">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        Completed
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-          </div>
-        </div>
-      )}
 
       {/* About the course */}
       <div className="home-section">
