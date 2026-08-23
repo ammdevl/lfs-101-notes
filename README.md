@@ -17,6 +17,13 @@ A static site built with **Next.js** (Pages Router), **Tailwind CSS 3**, and **L
 
 > **Note**: This is a study aid, not a replacement for the official course. Enroll in the free [LFS101 course](https://training.linuxfoundation.org/training/introduction-to-linux/) to access the full learning experience.
 
+## Documentation
+
+| Audience | Resource |
+|----------|----------|
+| Users & contributors | [`docs/`](docs/index.md) — architecture, data flow, content guide, styling, deployment, accessibility, development |
+| AI coding agents | [`AGENTS.md`](AGENTS.md) — conventions, guardrails, regression history |
+
 ## Quick Start
 
 ### Prerequisites
@@ -82,6 +89,7 @@ lfs-101-notes/
 │       └── [id].js         # Dynamic module page
 ├── public/
 │   └── src/                # Course images
+├── docs/                   # User-facing documentation
 ├── styles/
 │   ├── style.scss          # Tailwind entry point
 │   ├── base.scss           # Reset, typography, focus states
