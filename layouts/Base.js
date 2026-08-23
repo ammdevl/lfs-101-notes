@@ -4,7 +4,7 @@ import CookieBanner from "./components/CookieBanner";
 import Head from "next/head";
 import { useRef, useEffect, useState } from "react";
 
-const Base = ({ title, description, children, sidebar, showProgress = false, sidebarOpen, onToggleSidebar }) => {
+const Base = ({ title, description, children, sidebar, showProgress = false, sidebarOpen, onToggleSidebar, topbarInset = false }) => {
   const pageTitle = title ? `${title} | LFS101 Notes` : "Introduction to Linux - LFS101 Notes";
   const pageDesc = description || "Personal study notes from the Introduction to Linux (LFS101) course by the Linux Foundation.";
   const contentRef = useRef(null);
@@ -46,7 +46,7 @@ const Base = ({ title, description, children, sidebar, showProgress = false, sid
       <div className={`app ${sidebar ? "app--sidebar" : ""}`}>
         {sidebar}
         <div className="main">
-          <Header showProgress={showProgress} showSidebarToggle={!!sidebar} sidebarOpen={sidebarOpen} onToggleSidebar={onToggleSidebar} />
+          <Header showProgress={showProgress} showSidebarToggle={!!sidebar} sidebarOpen={sidebarOpen} onToggleSidebar={onToggleSidebar} inset={topbarInset} />
           <div className="split-layout">
             <main className="split-layout__content" id="content" ref={contentRef}>
               <div className="content content-fade-in">
