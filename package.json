@@ -10,6 +10,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:render": "next build",
+    "render:build": "next build && cp -r out/. .",
     "start": "npx serve out",
     "lint": "next lint"
   },
