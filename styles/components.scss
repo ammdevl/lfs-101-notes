@@ -406,6 +406,9 @@
     object-fit: contain;
     border: 1px solid #e2e8f0;
     transition: box-shadow 150ms ease, transform 150ms ease;
+    /* preflight makes img block-level; center it explicitly */
+    margin-left: auto;
+    margin-right: auto;
   }
 
   figure img:hover {
@@ -581,11 +584,17 @@
 }
 
 .home-stat {
-  @apply text-center p-4 bg-white rounded-xl border border-border;
+  @apply text-center p-4 bg-white rounded-xl border border-border transition-all duration-normal cursor-default;
+  &:hover {
+    @apply shadow-md border-primary/20 -translate-y-0.5;
+  }
 }
 
 .dark .home-stat {
   @apply bg-darkmode-body border-darkmode-border;
+  &:hover {
+    @apply shadow-lg border-darkmode-primary/30 -translate-y-0.5;
+  }
 }
 
 .home-stat__value {
@@ -631,22 +640,29 @@
 }
 
 .home-feature {
-  @apply flex items-start gap-3 p-4 bg-white rounded-xl border border-border transition-all duration-fast;
+  @apply flex items-start gap-3 p-4 bg-white rounded-xl border border-border transition-all duration-normal;
   &:hover {
-    @apply shadow-sm;
+    @apply shadow-md border-primary/30 -translate-y-0.5;
   }
 }
 
 .dark .home-feature {
   @apply bg-darkmode-body border-darkmode-border;
+  &:hover {
+    @apply shadow-lg border-darkmode-primary/40 -translate-y-0.5;
+  }
 }
 
 .home-feature__icon {
-  @apply text-primary flex-shrink-0 mt-0.5;
+  @apply text-primary flex-shrink-0 mt-0.5 transition-transform duration-normal;
 }
 
 .dark .home-feature__icon {
   @apply text-darkmode-primary;
+}
+
+.home-feature:hover .home-feature__icon {
+  transform: scale(1.15);
 }
 
 /* Home lists */
@@ -680,25 +696,29 @@
 }
 
 .home-quick-link {
-  @apply flex items-center gap-2 p-3 bg-white rounded-xl border border-border no-underline transition-all duration-fast;
+  @apply flex items-center gap-2 p-3 bg-white rounded-xl border border-border no-underline transition-all duration-normal;
   &:hover {
-    @apply border-primary/20 shadow-sm no-underline;
+    @apply border-primary/40 shadow-md no-underline -translate-y-0.5;
   }
 }
 
 .dark .home-quick-link {
   @apply bg-darkmode-body border-darkmode-border;
   &:hover {
-    @apply border-darkmode-primary/20;
+    @apply border-darkmode-primary/40 shadow-lg no-underline -translate-y-0.5;
   }
 }
 
 .home-quick-link__icon {
-  @apply text-primary flex-shrink-0;
+  @apply text-primary flex-shrink-0 transition-transform duration-normal;
 }
 
 .dark .home-quick-link__icon {
   @apply text-darkmode-primary;
+}
+
+.home-quick-link:hover .home-quick-link__icon {
+  transform: translateX(2px) scale(1.1);
 }
 
 .home-quick-link__text {
