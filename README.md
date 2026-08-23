@@ -21,7 +21,7 @@ A static site built with **Next.js** (Pages Router), **Tailwind CSS 3**, and **L
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 18+
+- [Node.js](https://nodejs.org/) **20.9+** (22 recommended, see `.node-version`)
 
 ### Local Development
 
@@ -42,14 +42,20 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Production Build
 
 ```bash
-# Build for Render Static Site
-npm run build:render
+# Build the fully static export into ./out
+npm run build
 
 # Preview the static output
 npx serve out
 ```
 
+The build also copies `out/` to the repository root (`postbuild` hook) so that Render's Static Site serves correctly whether its publish directory is `out` or `.`. For an explicit CI-style run use `npm run render:build`.
+
+> For architecture, data flow, and agent-facing conventions see [AGENTS.md](AGENTS.md).
+
 ## Project Structure
+
+> Full architecture, data flow, and conventions: **[AGENTS.md](AGENTS.md)**
 
 ```
 lfs-101-notes/
@@ -80,7 +86,8 @@ lfs-101-notes/
 │   ├── style.scss          # Tailwind entry point
 │   ├── base.scss           # Reset, typography, focus states
 │   ├── layout.scss         # Topbar, sidebar, footer styles
-│   └── components.scss     # Buttons, cards, code blocks
+│   ├── components.scss     # Buttons, cards, code blocks
+│   └── utilities.scss      # Animations and helper classes
 ├── next.config.js
 ├── tailwind.config.js
 ├── jsconfig.json           # Path aliases
