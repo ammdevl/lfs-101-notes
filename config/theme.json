@@ -13,7 +13,7 @@
         "default": "#334155",
         "heading": "#0f172a",
         "secondary": "#64748b",
-        "muted": "#94a3b8",
+        "muted": "#64748b",
         "link": "#1a56db",
         "code": "#92400e"
       }
@@ -31,7 +31,7 @@
         "default": "#cbd5e1",
         "heading": "#f1f5f9",
         "secondary": "#94a3b8",
-        "muted": "#64748b",
+        "muted": "#94a3b8",
         "link": "#60a5fa",
         "code": "#fbbf24"
       }

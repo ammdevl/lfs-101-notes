@@ -6,10 +6,10 @@ const CookieBanner = () => {
   if (!showBanner) return null;
 
   return (
-    <div className="cookie-banner" role="dialog" aria-label="Cookie consent">
+    <div className="cookie-banner" role="region" aria-label="Cookie consent">
       <div className="cookie-banner__content">
         <div className="cookie-banner__icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
             <path d="M8.5 8.5v.01" />
             <path d="M16 15.5v.01" />

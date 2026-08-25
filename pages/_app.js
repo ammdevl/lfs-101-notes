@@ -12,6 +12,9 @@ const App = ({ Component, pageProps }) => {
   useEffect(() => {
     const handleRouteChange = () => {
       window.scrollTo(0, 0);
+      // Announce the new page to screen readers after navigation
+      const announcer = document.getElementById("sr-announcer");
+      if (announcer) announcer.textContent = document.title;
     };
     router.events.on("routeChangeComplete", handleRouteChange);
     return () => router.events.off("routeChangeComplete", handleRouteChange);

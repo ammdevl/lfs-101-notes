@@ -95,6 +95,11 @@
   @apply text-darkmode-text-secondary;
 }
 
+.card:hover .card__title,
+.dark .card:hover .card__title {
+  color: theme("colors.primary.light");
+}
+
 /* ---- Code blocks (macOS terminal style) ---- */
 .code-block {
   position: relative;
@@ -143,7 +148,7 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.75rem;
-  color: #8e8e93;
+  color: #c7c7cc;
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   white-space: nowrap;
   pointer-events: none;
@@ -156,7 +161,7 @@
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 4px;
-  color: #8e8e93;
+  color: #c7c7cc;
   font-size: 0.7rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   padding: 0.4em 0.6em;
@@ -343,6 +348,13 @@
   }
 
   /* Tables */
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1.5rem;
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -352,6 +364,12 @@
     overflow: hidden;
     border: 1px solid #e2e8f0;
     line-height: 1.6;
+  }
+
+  /* When wrapped, the wrapper owns the bottom spacing */
+  .table-wrap table {
+    margin-bottom: 0;
+    min-width: 480px;
   }
 
   th, td {
