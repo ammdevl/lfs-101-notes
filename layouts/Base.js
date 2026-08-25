@@ -48,7 +48,7 @@ const Base = ({ title, description, children, sidebar, showProgress = false, sid
         <div className="main">
           <Header showProgress={showProgress} showSidebarToggle={!!sidebar} sidebarOpen={sidebarOpen} onToggleSidebar={onToggleSidebar} inset={topbarInset} />
           <div className="split-layout">
-            <main className="split-layout__content" id="content" ref={contentRef}>
+            <main className="split-layout__content" id="content" ref={contentRef} tabIndex={-1}>
               <div className="content content-fade-in">
                 {children}
               </div>
@@ -64,7 +64,7 @@ const Base = ({ title, description, children, sidebar, showProgress = false, sid
         onClick={scrollToTop}
         aria-label="Scroll to top"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <polyline points="18 15 12 9 6 15" />
         </svg>
       </button>

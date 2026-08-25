@@ -8,7 +8,7 @@ const ModulesPage = () => {
   const pct = MODULES.length ? Math.round((completed / MODULES.length) * 100) : 0;
 
   return (
-    <Base title="Modules" showProgress>
+    <Base title="Modules" description="All 17 LFS101 course modules — Linux history, command line, files, processes, networking, scripting, and security." showProgress>
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <Link href="/" className="breadcrumb__parent">Home</Link>
         <span className="breadcrumb__sep" aria-hidden="true">/</span>
@@ -51,7 +51,7 @@ const ModulesPage = () => {
                 <span className="module-card-num">Module {i + 1}</span>
                 {done && (
                   <span className="module-card-done">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                     Done
