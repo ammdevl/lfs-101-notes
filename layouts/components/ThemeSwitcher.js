@@ -1,4 +1,5 @@
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const SunIcon = () => (
   <svg className="theme-icon theme-icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -22,14 +23,23 @@ const MoonIcon = () => (
 
 const ThemeSwitcher = () => {
   const { resolvedTheme, setTheme } = useTheme();
+  const [label, setLabel] = useState("Toggle dark mode");
   const isDark = resolvedTheme === "dark";
+
+  // Update the accessible label once the theme is known (post-hydration),
+  // keeping SSR markup stable to avoid hydration mismatches.
+  useEffect(() => {
+    if (resolvedTheme) {
+      setLabel(isDark ? "Switch to light mode" : "Switch to dark mode");
+    }
+  }, [resolvedTheme, isDark]);
 
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className="topbar__theme-toggle"
-      title="Toggle dark mode"
-      aria-label="Toggle dark mode"
+      title={label}
+      aria-label={label}
     >
       <SunIcon />
       <MoonIcon />

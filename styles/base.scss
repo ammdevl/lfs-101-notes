@@ -137,6 +137,17 @@ a:focus-visible,
   }
 }
 
+/* Selection */
+::selection {
+  background: theme("colors.primary.DEFAULT");
+  color: #fff;
+}
+
+.dark ::selection {
+  background: theme("colors.darkmode.primary.DEFAULT");
+  color: #0f172a;
+}
+
 /* Screen reader only */
 .sr-only {
   @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap;
