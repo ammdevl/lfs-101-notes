@@ -75,6 +75,15 @@ const ModulePage = ({ id }) => {
       const container = document.querySelector(".module-content");
       if (!container) return;
 
+      // Wrap tables for horizontal scrolling on small screens
+      container.querySelectorAll("table").forEach((table) => {
+        if (table.closest(".table-wrap")) return;
+        const wrap = document.createElement("div");
+        wrap.className = "table-wrap";
+        table.parentNode.insertBefore(wrap, table);
+        wrap.appendChild(table);
+      });
+
       container.querySelectorAll("h3").forEach((h3) => {
         if (h3.textContent.trim() !== "Summary") return;
         if (h3.closest(".summary-section")) return;
@@ -119,7 +128,7 @@ const ModulePage = ({ id }) => {
   const sidebarEl = <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />;
 
   return (
-    <Base title={moduleData?.title} showProgress sidebar={sidebarEl} sidebarOpen={sidebarOpen} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}>
+    <Base title={moduleData?.title} description={moduleData?.desc} showProgress sidebar={sidebarEl} sidebarOpen={sidebarOpen} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}>
 
       {/* Breadcrumb */}
       <nav className="breadcrumb" aria-label="Breadcrumb">
@@ -163,7 +172,7 @@ const ModulePage = ({ id }) => {
         <div className="module-nav">
           {prevModule ? (
             <Link href={`/modules/${prevModule.id}/`} className="btn btn--ghost">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="19" y1="12" x2="5" y2="12" />
                 <polyline points="12 19 5 12 12 5" />
               </svg>
@@ -180,7 +189,7 @@ const ModulePage = ({ id }) => {
           >
             {isComplete ? (
               <>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
                 Completed
@@ -193,7 +202,7 @@ const ModulePage = ({ id }) => {
           {nextModule ? (
             <Link href={`/modules/${nextModule.id}/`} className="btn btn--ghost">
               Next
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
               </svg>
@@ -201,7 +210,7 @@ const ModulePage = ({ id }) => {
           ) : (
             <Link href="/modules/" className="btn btn--ghost">
               All Modules
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
               </svg>

@@ -34,7 +34,7 @@
 }
 
 .topbar__sidebar-toggle {
-  @apply p-2 rounded-lg text-text-secondary transition-colors duration-fast mr-3;
+  @apply p-2.5 rounded-lg text-text-secondary transition-colors duration-fast mr-3;
   &:hover {
     @apply bg-border/50;
   }
@@ -74,7 +74,7 @@
 }
 
 .topbar__theme-toggle {
-  @apply relative p-2 rounded-lg text-text-secondary transition-colors duration-fast;
+  @apply relative p-2.5 rounded-lg text-text-secondary transition-colors duration-fast;
   &:hover {
     @apply bg-border/50;
   }
@@ -191,7 +191,7 @@ html.dark .theme-icon--moon {
 }
 
 .course-sidebar__progress-text {
-  @apply text-xs text-white/50;
+  @apply text-xs text-white/60;
 }
 
 .course-sidebar__nav {
@@ -387,7 +387,7 @@ html.dark .theme-icon--moon {
 
 /* ---- Cookie banner ---- */
 .cookie-banner {
-  @apply fixed bottom-0 left-0 right-0 z-50 p-4;
+  @apply fixed bottom-0 left-0 right-0 z-[60] p-4;
 }
 
 .cookie-banner.hidden {
