@@ -4,7 +4,7 @@ import CommandPalette from "./CommandPalette";
 import TuxMark from "@components/TuxMark";
 import Link from "next/link";
 
-const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar }) => {
+const Header = ({ showSidebarToggle = false, navbarWide = false, sidebarOpen, onToggleSidebar }) => {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [isMac, setIsMac] = useState(false);
 
@@ -23,13 +23,7 @@ const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar }) => 
   return (
     <>
       <header className="topbar">
-        <div className="topbar__inner">
-          <Link href="/" className="topbar__brand">
-            <span className="topbar__brand-icon" aria-hidden="true">
-              <TuxMark size={30} />
-            </span>
-            <span className="topbar__brand-text">LFS101 Notes</span>
-          </Link>
+        <div className={`topbar__inner ${navbarWide ? "topbar__inner--wide" : ""}`}>
           {showSidebarToggle && (
             <button
               className="topbar__sidebar-toggle"
@@ -44,6 +38,12 @@ const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar }) => 
               </svg>
             </button>
           )}
+          <Link href="/" className="topbar__brand">
+            <span className="topbar__brand-icon" aria-hidden="true">
+              <TuxMark size={30} />
+            </span>
+            <span className="topbar__brand-text">LFS101 Notes</span>
+          </Link>
           <div className="topbar__spacer" />
           <div className="topbar__actions">
             <button
