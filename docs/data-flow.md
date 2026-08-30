@@ -32,13 +32,13 @@ Adding a module means touching **three** places — see [Content Guide](content-
 flowchart TD
     BTN["'Mark as Complete' button<br/>pages/modules/[id].js"] -->|toggleComplete| CTX["ProgressContext.js<br/>reads/writes cookie"]
     CTX --> C1["Sidebar progress ring + checkmarks"]
-    CTX --> C3["Home + Modules page stats<br/>+ 'Continue learning' card"]
+    CTX --> C3["Home + Modules page stats"]
 ```
 
 - Storage: a browser cookie holding completed module ids, plus localStorage for the
-  last-visited module — no accounts, no server.
+  module — no accounts, no server.
 - Consumers read via `useProgress()` (`completed`, `total`, `isCompleted(id)`,
-  `toggleComplete(id)`, `lastVisitedId`, `setLastVisited(id)`).
+  `toggleComplete(id)`).
 
 ## 4. Theming
 

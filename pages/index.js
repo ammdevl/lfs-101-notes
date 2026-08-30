@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Base from "@layouts/Base";
 import ScrollReveal from "@components/ScrollReveal";
 import CountUp from "@components/CountUp";
@@ -108,21 +108,11 @@ const Eyebrow = ({ command }) => (
 /* ---------------- Page ---------------- */
 
 const HomePage = ({ totalMinutes, searchIndex }) => {
-  const { completed, isCompleted, lastVisitedId } = useProgress();
+  const { completed } = useProgress();
   useRegisterSearchIndex(searchIndex);
   const total = MODULES.length;
   const pct = total ? Math.round((completed / total) * 100) : 0;
   const totalHours = Math.max(1, Math.round(totalMinutes / 60));
-
-  // Resume target: last visited (if not finished), else first unfinished
-  const continueModule = useMemo(() => {
-    if (completed === 0 && !lastVisitedId) return null;
-    if (lastVisitedId && !isCompleted(lastVisitedId)) {
-      return MODULES.find((m) => m.id === lastVisitedId);
-    }
-    return MODULES.find((m) => !isCompleted(m.id)) || null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [completed, lastVisitedId]);
 
   return (
     <Base topbarInset wide>
@@ -243,33 +233,8 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
         </ScrollReveal>
       </div>
 
-      {/* Continue learning */}
-      {continueModule && (
-        <ScrollReveal className="mt-6">
-          <Link href={`/modules/${continueModule.id}/`} className="continue-card" aria-label={`Continue learning: ${continueModule.title}`}>
-            <span className="continue-card__icon" aria-hidden="true">{continueModule.icon}</span>
-            <div className="continue-card__body">
-              <span className="continue-card__label">
-                {completed === 0 ? "Pick up where you left off" : "Continue learning"}
-              </span>
-              <span className="continue-card__title">{continueModule.title}</span>
-              <div className="continue-card__progress">
-                <div className="progress-bar" role="progressbar" aria-valuenow={completed} aria-valuemin="0" aria-valuemax={total} aria-label="Course progress">
-                  <div className="progress-bar__fill" style={{ width: `${pct}%` }} />
-                </div>
-                <span>{completed}/{total} · {pct}%</span>
-              </div>
-            </div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="text-text-secondary dark:text-darkmode-text-secondary">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </Link>
-        </ScrollReveal>
-      )}
-
       {/* What you'll learn */}
-      <div className="home-section home-section--narrow">
+      <div className="home-section">
         <ScrollReveal>
           <Eyebrow command="cat skills.txt" />
           <h2 className="home-section__title">What you&rsquo;ll learn</h2>
@@ -343,7 +308,7 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
       </div>
 
       {/* Course outline — terminal window */}
-      <div className="home-section home-section--narrow">
+      <div className="home-section">
         <ScrollReveal>
           <Eyebrow command="ls ~/course" />
           <h2 className="home-section__title">Course outline</h2>
@@ -380,7 +345,7 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
       </div>
 
       {/* Who is this for */}
-      <div className="home-section home-section--narrow">
+      <div className="home-section">
         <ScrollReveal>
           <Eyebrow command="who | grep learners" />
           <h2 className="home-section__title">Who is this for?</h2>
@@ -448,7 +413,7 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
       </div>
 
       {/* How to use */}
-      <div className="home-section home-section--narrow">
+      <div className="home-section">
         <ScrollReveal>
           <Eyebrow command="./start-learning.sh" />
           <h2 className="home-section__title">How to use these notes</h2>
@@ -492,7 +457,7 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
       </div>
 
       {/* Quick links */}
-      <div className="home-section home-section--narrow">
+      <div className="home-section">
         <ScrollReveal>
           <Eyebrow command="open resources/" />
           <h2 className="home-section__title">Quick links</h2>
@@ -527,7 +492,7 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
       </div>
 
       {/* CTA band */}
-      <ScrollReveal scale className="home-section--narrow">
+      <ScrollReveal scale >
         <div className="home-cta">
           <div className="home-cta__bg" aria-hidden="true" />
           <h2 className="home-cta__title">Start your Linux journey today</h2>

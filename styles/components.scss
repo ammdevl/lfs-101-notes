@@ -1330,91 +1330,10 @@
   color: theme("colors.darkmode.text-secondary");
 }
 
-/* Continue learning card */
-.continue-card {
-  @apply relative mt-4 flex flex-col gap-4 overflow-hidden rounded-2xl border p-5 no-underline transition-all duration-normal sm:flex-row sm:items-center md:p-6;
-  border-color: rgba(79, 70, 229, 0.25);
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.06), rgba(124, 58, 237, 0.05));
-
-  &::before {
-    content: "";
-    @apply absolute left-0 top-0 bottom-0 w-1;
-    background: linear-gradient(180deg, #4f46e5, #7c3aed);
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    border-color: rgba(79, 70, 229, 0.5);
-    box-shadow: theme("boxShadow.lift");
-  }
-}
-
-.dark .continue-card {
-  border-color: rgba(129, 140, 248, 0.28);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.07));
-
-  &:hover {
-    border-color: rgba(129, 140, 248, 0.55);
-  }
-}
-
-.continue-card__icon {
-  @apply inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl;
-  background: linear-gradient(135deg, theme("colors.primary.DEFAULT"), theme("colors.accent.DEFAULT"));
-  box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.55);
-}
-
-.continue-card__body {
-  @apply min-w-0 flex-1;
-}
-
-.continue-card__label {
-  @apply text-[11px] font-bold uppercase tracking-[0.14em];
-  font-family: theme("fontFamily.secondary");
-  color: theme("colors.primary.DEFAULT");
-}
-
-.dark .continue-card__label {
-  color: theme("colors.darkmode.primary.DEFAULT");
-}
-
-.continue-card__title {
-  /* line-clamp (not truncate): keeps single-line ellipsis without the
-     nowrap intrinsic width that blows out small viewports */
-  @apply mt-0.5 line-clamp-1 font-display text-lg font-bold text-text-heading;
-}
-
-.dark .continue-card__title {
-  color: theme("colors.darkmode.text-heading");
-}
-
-.continue-card__progress {
-  @apply mt-2 flex items-center gap-3;
-
-  .progress-bar {
-    @apply max-w-[220px];
-  }
-
-  span {
-    @apply whitespace-nowrap text-xs tabular-nums;
-    color: theme("colors.text-muted");
-    font-family: theme("fontFamily.secondary");
-  }
-}
-
-.dark .continue-card__progress span {
-  color: theme("colors.darkmode.text-muted");
-}
 
 /* Home sections */
 .home-section {
   @apply my-12;
-}
-
-/* Text-heavy sections stay centered at a readable measure
-   instead of stretching across the wide home container */
-.home-section--narrow {
-  @apply mx-auto max-w-4xl;
 }
 
 .home-section__title {
