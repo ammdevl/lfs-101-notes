@@ -24,10 +24,6 @@
   border-bottom-color: theme("colors.darkmode.border");
 }
 
-/* Extra horizontal breathing room (home page only) */
-.topbar--inset {
-  @apply px-8 sm:px-16;
-}
 
 /* Sidebar toggle */
 .topbar__sidebar-toggle {
@@ -66,13 +62,8 @@
 }
 
 .topbar__brand-icon {
-  @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-white;
-  border-color: theme("colors.border");
+  @apply inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white;
   box-shadow: theme("boxShadow.soft");
-}
-
-.dark .topbar__brand-icon {
-  border-color: theme("colors.darkmode.border");
 }
 
 .topbar__brand-text {
@@ -605,13 +596,8 @@ html.dark .theme-icon--moon {
 }
 
 .footer__brand-icon {
-  @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-white;
-  border-color: theme("colors.border");
+  @apply inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white;
   box-shadow: theme("boxShadow.soft");
-}
-
-.dark .footer__brand-icon {
-  border-color: theme("colors.darkmode.border");
 }
 
 .footer__brand-name {

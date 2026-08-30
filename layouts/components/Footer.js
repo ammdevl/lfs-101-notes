@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <div className="footer__brand-row">
               <span className="footer__brand-icon" aria-hidden="true">
-                <TuxMark size={16} />
+                <TuxMark size={24} />
               </span>
               <span className="footer__brand-name">LFS101 Notes</span>
             </div>

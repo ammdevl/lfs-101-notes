@@ -6,13 +6,15 @@
 
 ## About
 
-A static site built with **Next.js** (Pages Router), **Tailwind CSS 3**, and **Lenis smooth scroll** that provides a clean, readable interface for reviewing LFS101 course material.
+A static site built with **Next.js** (Pages Router), **Tailwind CSS 3 + SCSS**, and **Lenis smooth scroll** that provides a clean, readable interface for reviewing LFS101 course material.
 
-- **17 course modules** covering Linux fundamentals
-- **Dark mode** support (via `next-themes`)
-- **Progress tracking** (saved in browser cookies)
+- **17 course modules** covering Linux fundamentals, with reading-time estimates
+- **⌘K command palette** — search modules and jump straight to any section
+- **Dark mode** support (via `next-themes`), WCAG-AA checked
+- **Progress tracking** (saved locally in your browser) with sidebar progress ring
+- **Copy buttons on every terminal block**, reading progress bar, completion confetti
 - **Responsive design** for desktop and mobile
-- **Keyboard accessible** with proper focus states
+- **Keyboard accessible** with proper focus states, live-region announcements, and reduced-motion support
 - **Smooth scrolling** via Lenis
 
 > **Note**: This is a study aid, not a replacement for the official course. Enroll in the free [LFS101 course](https://training.linuxfoundation.org/training/introduction-to-linux/) to access the full learning experience.
@@ -68,34 +70,45 @@ The build also copies `out/` to the repository root (`postbuild` hook) so that R
 lfs-101-notes/
 ├── components/
 │   ├── modules/            # JSX module content (17 files)
-│   └── ProgressContext.js  # Cookie-based progress tracking
+│   ├── ProgressContext.js  # Cookie-based progress tracking
+│   ├── SearchContext.js    # ⌘K search-index registry
+│   ├── ScrollReveal.js     # Scroll-reveal wrapper
+│   ├── CountUp.js          # Animated stat numbers
+│   └── TuxMark.js          # Tux brand logo
 ├── config/
 │   └── theme.json          # Design tokens
 ├── data/
 │   └── modules.js          # Module metadata
+├── lib/
+│   ├── content-meta.js     # Build-time read time + heading extraction
+│   ├── slugify.js          # Shared heading-slug logic
+│   └── scroll.js           # Lenis-aware scroll helpers
 ├── layouts/
-│   ├── Base.js             # Base layout wrapper
+│   ├── Base.js             # Base layout wrapper (topbar, FAB, progress)
 │   └── components/
-│       ├── Header.js       # Top navigation bar
+│       ├── Header.js       # Glass topbar (⌘K palette, GitHub, theme)
+│       ├── CommandPalette.js
 │       ├── Sidebar.js      # Course navigation sidebar
 │       ├── Footer.js
 │       ├── LenisProvider.js
 │       └── ThemeSwitcher.js
 ├── pages/
-│   ├── _app.js             # App wrapper (theme, progress, lenis)
+│   ├── _app.js             # App wrapper (theme, progress, search, lenis)
 │   ├── index.js            # Home page
+│   ├── 404.js              # Branded not-found page
 │   └── modules/
-│       ├── index.js        # Module listing
-│       └── [id].js         # Dynamic module page
+│       ├── index.js        # Module listing (search + filters)
+│       └── [id].js         # Dynamic module page (TOC pass, copy buttons)
 ├── public/
+│   ├── favicon.svg         # Tux favicon
 │   └── src/                # Course images
 ├── docs/                   # User-facing documentation
 ├── styles/
 │   ├── style.scss          # Tailwind entry point
-│   ├── base.scss           # Reset, typography, focus states
-│   ├── layout.scss         # Topbar, sidebar, footer styles
-│   ├── components.scss     # Buttons, cards, code blocks
-│   └── utilities.scss      # Animations and helper classes
+│   ├── base.scss           # Reset, typography, focus states, reveal
+│   ├── layout.scss         # Topbar, sidebar, footer, FAB styles
+│   ├── components.scss     # Buttons, cards, terminal blocks, palette
+│   └── utilities.scss      # Keyframes and helper classes
 ├── next.config.js
 ├── tailwind.config.js
 ├── jsconfig.json           # Path aliases
@@ -120,10 +133,24 @@ All 17 LFS101 modules are included as JSX components with proper formatting:
 
 ### Progress Tracking
 
-- Click "Mark as Complete" on any module
-- Progress is saved in a browser cookie
-- Visual progress bar in the top bar
-- Sidebar shows completion status
+- Click "Mark as Complete" on any module (with a confetti celebration)
+- Progress is saved locally in your browser — no accounts, no server
+- Progress ring in the course sidebar
+- Sidebar shows completion checkmarks per module
+
+### Search (⌘K)
+
+- Press `Ctrl/⌘ + K` (or the Search button in the top bar) anywhere
+- Searches module titles, descriptions, and every section heading
+- Jump straight to a module — or deep-link to an exact section
+- Full keyboard navigation: `↑`/`↓` to move, `Enter` to open, `Esc` to close
+
+### Reading Aids
+
+- Reading progress bar at the top of every module page
+- "On this page" links from the ⌘K palette to any section
+- Estimated reading time on module cards and module pages
+- Copy button on all 173 terminal blocks (strips `$` prompts)
 
 ### Dark Mode
 
@@ -131,6 +158,7 @@ Toggle between light and dark themes using the sun/moon icon in the header. Your
 
 ### Keyboard Navigation
 
+- `Ctrl/⌘ + K` — Open the search palette
 - `Alt + ←/→` — Navigate between modules
 - `Tab` through all interactive elements
 - Visible focus rings for accessibility
