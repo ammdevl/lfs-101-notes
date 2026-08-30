@@ -24,10 +24,15 @@
   border-bottom-color: theme("colors.darkmode.border");
 }
 
-/* Navbar content shares the page container so the brand aligns with
-   the content column below */
+/* Navbar contents: full-width with edge padding on module pages (never
+   inset there); wide pages (home, modules index) inset to the content
+   container instead. */
 .topbar__inner {
-  @apply mx-auto flex h-full w-full max-w-[80rem] items-center gap-3 px-5 md:px-8;
+  @apply flex h-full w-full items-center gap-3 px-4 md:px-6;
+}
+
+.topbar__inner--wide {
+  @apply mx-auto max-w-[80rem] px-5 md:px-8;
 }
 
 

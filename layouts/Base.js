@@ -84,7 +84,7 @@ const Base = ({ title, description, children, sidebar, sidebarOpen, onToggleSide
       <div className={`app ${sidebar ? "app--sidebar" : ""}`}>
         {sidebar}
         <div className="main">
-          <Header showSidebarToggle={!!sidebar} sidebarOpen={sidebarOpen} onToggleSidebar={onToggleSidebar} />
+          <Header showSidebarToggle={!!sidebar} navbarWide={wide} sidebarOpen={sidebarOpen} onToggleSidebar={onToggleSidebar} />
           <div className="split-layout">
             <main className="split-layout__content" id="content" ref={contentRef} tabIndex={-1}>
               <div className={`content content-fade-in ${wide ? "content--wide" : ""}`}>
