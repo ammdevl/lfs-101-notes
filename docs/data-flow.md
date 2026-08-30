@@ -18,10 +18,10 @@ Change a value in `theme.json`, rebuild, and every component referencing the tok
 ```mermaid
 flowchart TD
     M["data/modules.js<br/>MODULES array (id, title, icon, desc)"] --> P["getStaticPaths<br/>one route per module"]
-    M --> Q["getStaticProps<br/>passes id to page"]
+    M --> Q["getStaticProps<br/>id · readMinutes · headings · searchIndex"]
     Q --> R["pages/modules/[id].js"]
     R -->|"moduleComponents map"| DI["dynamic import()<br/>components/modules/&lt;Name&gt;.js"]
-    DI --> DOM["client effect: wrap each 'Summary' h3<br/>in a .summary-section container"]
+    DI --> DOM["client DOM pass: anchor ids · .table-wrap ·<br/>.summary-section · copy buttons"]
 ```
 
 Adding a module means touching **three** places — see [Content Guide](content-guide.md).
@@ -31,13 +31,14 @@ Adding a module means touching **three** places — see [Content Guide](content-
 ```mermaid
 flowchart TD
     BTN["'Mark as Complete' button<br/>pages/modules/[id].js"] -->|toggleComplete| CTX["ProgressContext.js<br/>reads/writes cookie"]
-    CTX --> C1["Sidebar checkmarks<br/>layouts/components/Sidebar.js"]
-    CTX --> C2["Topbar ProgressTracker bar"]
-    CTX --> C3["Home + Modules page stats"]
+    CTX --> C1["Sidebar progress ring + checkmarks"]
+    CTX --> C3["Home + Modules page stats<br/>+ 'Continue learning' card"]
 ```
 
-- Storage: a browser cookie holding completed module ids — no accounts, no server.
-- Consumers read via `useProgress()` (`completed`, `total`, `isCompleted(id)`, `toggleComplete(id)`).
+- Storage: a browser cookie holding completed module ids, plus localStorage for the
+  last-visited module — no accounts, no server.
+- Consumers read via `useProgress()` (`completed`, `total`, `isCompleted(id)`,
+  `toggleComplete(id)`, `lastVisitedId`, `setLastVisited(id)`).
 
 ## 4. Theming
 

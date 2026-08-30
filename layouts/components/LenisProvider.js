@@ -19,7 +19,10 @@ const LenisProvider = ({ children }) => {
         lerp: 0.1,
         smoothWheel: true,
         autoResize: true,
-        anchors: true,
+        // Anchor clicks are handled by Base's delegated handler because the
+        // page scrolls inside #content (a nested container), which Lenis
+        // root mode cannot scroll itself.
+        anchors: false,
         allowNestedScroll: true,
       }}
     >
