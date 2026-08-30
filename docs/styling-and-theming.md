@@ -18,7 +18,7 @@
 | File | Owns |
 |------|------|
 | `base.scss` | Reset, display headings, links + underline exclusion list, focus rings, `color-scheme`, reduced-motion, scroll-reveal primitives, `.gradient-text`, `.kbd` |
-| `layout.scss` | Glass topbar (⌘K search + GitHub link), sidebar drawer, footer, breadcrumb, reading-progress bar, progress rings, scroll FAB (with SVG ring) |
+| `layout.scss` | Glass topbar (Tux brand, ⌘K search, GitHub link; navbar inset only on wide pages), sidebar drawer, footer, breadcrumb, reading-progress bar, progress rings, scroll FAB (with SVG ring) |
 | `components.scss` | Buttons, cards, module cards, code blocks (+ injected copy button), module-content typography, home hero/terminal/bento/outline/steps, modules toolbar + filters, command palette |
 | `utilities.scss` | Shared keyframes (`fade-up`, `shimmer`, `blink`, `pop`, …), page fade-in, line-clamp, copy flash |
 
