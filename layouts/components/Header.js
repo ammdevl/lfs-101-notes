@@ -40,7 +40,7 @@ const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar }) => 
           )}
           <Link href="/" className="topbar__brand">
             <span className="topbar__brand-icon" aria-hidden="true">
-              <TuxMark size={26} />
+              <TuxMark size={30} />
             </span>
             <span className="topbar__brand-text">LFS101 Notes</span>
           </Link>

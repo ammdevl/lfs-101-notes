@@ -68,8 +68,13 @@
 }
 
 .topbar__brand-icon {
-  @apply inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white;
-  box-shadow: theme("boxShadow.soft");
+  @apply inline-flex items-center justify-center;
+}
+
+/* The penguin's black body needs a faint rim to separate from dark glass */
+.dark .topbar__brand-icon svg,
+.dark .footer__brand-icon svg {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.22));
 }
 
 .topbar__brand-text {
@@ -602,8 +607,7 @@ html.dark .theme-icon--moon {
 }
 
 .footer__brand-icon {
-  @apply inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white;
-  box-shadow: theme("boxShadow.soft");
+  @apply inline-flex items-center justify-center;
 }
 
 .footer__brand-name {
