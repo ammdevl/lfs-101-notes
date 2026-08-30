@@ -54,7 +54,8 @@ There is **no server**. Everything prerenders to HTML at build time; interactivi
 │                                                                    │
 │  layouts/Base.js — page shell                                      │
 │    ├─ Skip link → <main id="content">                              │
-│    ├─ Header (glass topbar): brand · ⌘K search · ThemeSwitcher     │
+│    ├─ Header (glass topbar): Tux brand · ⌘K search · GitHub ·      │
+│    │    ThemeSwitcher                                              │
 │    │    └─ CommandPalette (Cmd/Ctrl+K, registered search index)    │
 │    ├─ Sidebar (module pages only): fixed 280px drawer,             │
 │    │   progress ring + module list, data-lenis-prevent             │
@@ -104,6 +105,12 @@ anchor jumps go through `lib/scroll.js` → `lenis.scrollTo()` (raw `window.scro
 overridden by Lenis). Fixed inner scrollers (sidebar nav, palette results) carry
 `data-lenis-prevent` so wheel scrolling inside them doesn't move the page.
 
+**Navbar width rule**
+Topbar contents live in `.topbar__inner`. They are **inset only on wide pages**
+(home, modules index: `topbar__inner--wide`, aligned with the 80rem content
+container). On module pages they are **never inset** — full width of the main
+area with edge padding. The sidebar toggle sits to the left of the Tux brand.
+
 **Sidebar behavior**
 Open/close state lives in the module page. Desktop: stays open while navigating between
 modules. Mobile (≤768px): overlay drawer, closes after navigation/backdrop tap/Escape.
@@ -118,6 +125,7 @@ components/
   SearchContext.js       # ⌘K search-index registry (pages register, palette reads)
   ScrollReveal.js        # IO-based reveal wrapper (needs html.js from _document)
   CountUp.js             # count-up number (SSR renders final value)
+  TuxMark.js             # full-color Tux brand logo (matches favicon.svg)
   modules/*.js           # course content, one JSX file per module
 config/theme.json        # design tokens consumed by tailwind.config.js
 data/modules.js          # single source of truth for module ids/order
@@ -128,10 +136,10 @@ lib/
 layouts/
   Base.js                # shell: Head/favicon/fonts/Header/Footer/FAB/progress
   components/            # Header (with ⌘K palette), Sidebar, Footer,
-                         # ThemeSwitcher, CookieBanner, LenisProvider
+                         # ThemeSwitcher, LenisProvider
 pages/
   _app.js _document.js   # providers + suppressHydrationWarning + html.js script
-  index.js               # home (wide, topbarInset)
+  index.js               # home (wide)
   modules/index.js       # all-modules grid (wide; search + filters)
   modules/[id].js        # module page + SSG + runtime DOM pass + Alt+←/→
 public/

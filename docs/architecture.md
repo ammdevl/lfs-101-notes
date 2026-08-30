@@ -63,6 +63,10 @@ The **window is the scroll container** (the topbar is `position: sticky`; `#cont
 - Anchor jumps must use `lib/scroll.js` (`scrollToTarget` / `scrollToTopOfPage`), which route through `lenis.scrollTo()` and fall back to `window.scrollTo`. Base attaches one delegated `click` handler for all `a[href^="#"]` (skip link, palette section links).
 - Fixed scrollers inside the page (sidebar nav, command-palette results) carry `data-lenis-prevent` so wheel scrolling inside them doesn't move the page.
 
+### Navbar width rule
+
+Topbar contents live in `.topbar__inner`. They are **inset only on wide pages** (home, modules index — `topbar__inner--wide`, aligned with the 80rem content container). On module pages they are **never inset**: the navbar spans the full width of the main area with edge padding. The sidebar toggle sits to the left of the Tux brand mark.
+
 ### Module page runtime DOM pass
 
 After a module mounts, one idempotent pass over `.module-content` (`pages/modules/[id].js`):
