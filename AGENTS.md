@@ -36,7 +36,7 @@ There is **no server**. Everything prerenders to HTML at build time; interactivi
 │                                                                    │
 │  pages/_app.js                                                     │
 │    └─ ThemeProvider (next-themes, attribute="class")               │
-│       └─ ProgressProvider (cookie + lastVisited, local-only)          │
+│       └─ ProgressProvider (cookie-backed progress, local-only)       │
 │          └─ SearchProvider (⌘K index registry)                     │
 │             └─ LenisProvider (window smooth scroll)                │
 │                └─ page component                                   │
@@ -79,10 +79,9 @@ statically; CSS shows/hides them via `html.dark`, so the correct icon paints on 
 (no mount flicker).
 
 **Progress tracking**
-`components/ProgressContext.js` stores completed module ids in a cookie plus the last
-visited module (localStorage) — purely local, functional storage (no consent gate).
-Consumers: Sidebar progress ring + checks, home-page stats and "Continue learning" card,
-"Mark as Complete" button (fires canvas-confetti).
+`components/ProgressContext.js` stores completed module ids in a cookie — purely local,
+functional storage (no consent gate). Consumers: Sidebar progress ring + checks,
+home-page stats, "Mark as Complete" button (fires canvas-confetti).
 
 **Search (⌘K)**
 `lib/content-meta.js` (fs — import only from `getStaticProps`) extracts each module's
@@ -115,7 +114,7 @@ Closed drawer is removed from tab order only *after* its slide-out animation
 
 ```
 components/
-  ProgressContext.js     # cookie progress + lastVisited store (Context API)
+  ProgressContext.js     # cookie progress store (Context API)
   SearchContext.js       # ⌘K search-index registry (pages register, palette reads)
   ScrollReveal.js        # IO-based reveal wrapper (needs html.js from _document)
   CountUp.js             # count-up number (SSR renders final value)

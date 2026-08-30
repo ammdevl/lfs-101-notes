@@ -158,7 +158,7 @@ export async function getStaticProps({ params }) {
 const ModulePage = ({ id, readMinutes, headings, searchIndex }) => {
   const router = useRouter();
   const lenis = useLenis();
-  const { isCompleted, toggleComplete, completed, setLastVisited } = useProgress();
+  const { isCompleted, toggleComplete, completed } = useProgress();
   useRegisterSearchIndex(searchIndex);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [ModuleComponent, setModuleComponent] = useState(null);
@@ -169,11 +169,6 @@ const ModulePage = ({ id, readMinutes, headings, searchIndex }) => {
   const prevModule = currentIndex > 0 ? MODULES[currentIndex - 1] : null;
   const nextModule = currentIndex < MODULES.length - 1 ? MODULES[currentIndex + 1] : null;
   const isComplete = id ? isCompleted(id) : false;
-
-  useEffect(() => {
-    setLastVisited(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
 
   useEffect(() => {
     if (!id || !moduleComponents[id]) {

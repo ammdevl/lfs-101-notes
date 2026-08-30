@@ -66,14 +66,13 @@
 }
 
 .topbar__brand-icon {
-  @apply inline-flex h-8 w-8 items-center justify-center rounded-lg text-white;
-  background: linear-gradient(135deg, theme("colors.primary.DEFAULT"), theme("colors.accent.DEFAULT"));
-  box-shadow: 0 4px 12px -2px rgba(79, 70, 229, 0.45);
+  @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-white;
+  border-color: theme("colors.border");
+  box-shadow: theme("boxShadow.soft");
 }
 
 .dark .topbar__brand-icon {
-  background: linear-gradient(135deg, theme("colors.darkmode.primary.DEFAULT"), theme("colors.darkmode.accent.DEFAULT"));
-  box-shadow: 0 4px 12px -2px rgba(129, 140, 248, 0.35);
+  border-color: theme("colors.darkmode.border");
 }
 
 .topbar__brand-text {
@@ -606,8 +605,13 @@ html.dark .theme-icon--moon {
 }
 
 .footer__brand-icon {
-  @apply inline-flex h-8 w-8 items-center justify-center rounded-lg text-white;
-  background: linear-gradient(135deg, theme("colors.primary.DEFAULT"), theme("colors.accent.DEFAULT"));
+  @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-white;
+  border-color: theme("colors.border");
+  box-shadow: theme("boxShadow.soft");
+}
+
+.dark .footer__brand-icon {
+  border-color: theme("colors.darkmode.border");
 }
 
 .footer__brand-name {

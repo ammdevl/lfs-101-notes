@@ -34,7 +34,7 @@ Every page renders inside `layouts/Base.js`:
 ```mermaid
 flowchart TD
     APP["pages/_app.js providers"] --> T["ThemeProvider<br/>next-themes · class on &lt;html&gt;"]
-    T --> P["ProgressProvider<br/>cookie + last-visited context"]
+    T --> P["ProgressProvider<br/>cookie-backed context"]
     P --> S["SearchProvider<br/>⌘K index registry"]
     S --> L["LenisProvider<br/>window smooth scrolling"]
     L --> BASE["layouts/Base.js shell"]
@@ -83,7 +83,7 @@ The pass verifies its own work and re-applies (bounded retries) if the DOM gets 
 | `output: "export"` | Produces host-agnostic static files (`out/`) — deployable anywhere |
 | Tailwind + SCSS partials | Utility classes for one-off layout; structured BEM-style SCSS for components |
 | next-themes (`class` strategy) | Blocking inline script prevents flash-of-wrong-theme; CSS drives icon states |
-| Cookie + localStorage | Progress in a cookie, last-visited module in localStorage — purely local, functional storage |
+| Cookie | Module-completion progress in a cookie — purely local, functional storage |
 | Lenis (window mode) | Smooth wheel scrolling; `data-lenis-prevent` for nested scrollers; all programmatic scrolls via `lenis.scrollTo` |
 | canvas-confetti | ~6 KB; fires on module completion and the 17/17 milestone; skipped under reduced motion |
 
