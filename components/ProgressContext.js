@@ -5,8 +5,6 @@ const ProgressContext = createContext();
 
 const PROGRESS_COOKIE = "lfs101_progress";
 const COOKIE_DAYS = 365;
-const COOKIE_CONSENT_KEY = "lfs101_cookies_accepted";
-const CONSENT_MAX_AGE_DAYS = 30;
 
 function getCookie(name) {
   if (typeof document === "undefined") return null;
@@ -23,39 +21,15 @@ function setCookie(name, value, days) {
   document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires};path=/;SameSite=Lax${secure}`;
 }
 
-function getConsent() {
-  if (typeof localStorage === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(COOKIE_CONSENT_KEY);
-    if (!raw) return null;
-    const data = JSON.parse(raw);
-    const age = (Date.now() - data.timestamp) / (1000 * 60 * 60 * 24);
-    if (age > CONSENT_MAX_AGE_DAYS) {
-      localStorage.removeItem(COOKIE_CONSENT_KEY);
-      return null;
-    }
-    return data.value;
-  } catch {
-    localStorage.removeItem(COOKIE_CONSENT_KEY);
-    return null;
-  }
+function isValidModuleId(id) {
+  return typeof id === "string" && MODULES.some((m) => m.id === id);
 }
 
 export function ProgressProvider({ children }) {
   const [progressData, setProgressData] = useState({});
-  const [cookiesAccepted, setCookiesAccepted] = useState(false);
-  const [showBanner, setShowBanner] = useState(false);
 
-  // Load progress from cookie on mount
+  // Load progress from the cookie on mount
   useEffect(() => {
-    const consent = getConsent();
-    setCookiesAccepted(consent === "accepted");
-
-    if (!consent) {
-      setShowBanner(true);
-      return;
-    }
-
     const raw = getCookie(PROGRESS_COOKIE);
     if (!raw) return;
 
@@ -76,13 +50,9 @@ export function ProgressProvider({ children }) {
     }
   }, []);
 
-  const saveProgress = useCallback(
-    (data) => {
-      if (!cookiesAccepted) return;
-      setCookie(PROGRESS_COOKIE, JSON.stringify(data), COOKIE_DAYS);
-    },
-    [cookiesAccepted]
-  );
+  const saveProgress = useCallback((data) => {
+    setCookie(PROGRESS_COOKIE, JSON.stringify(data), COOKIE_DAYS);
+  }, []);
 
   const toggleComplete = useCallback(
     (moduleId) => {
@@ -109,40 +79,6 @@ export function ProgressProvider({ children }) {
 
   const completed = Object.values(progressData).filter((p) => p.completed).length;
 
-  const acceptCookies = useCallback(() => {
-    if (typeof localStorage !== "undefined") {
-      localStorage.setItem(
-        COOKIE_CONSENT_KEY,
-        JSON.stringify({ value: "accepted", timestamp: Date.now() })
-      );
-    }
-    setCookiesAccepted(true);
-    setShowBanner(false);
-    // Reload progress from cookie
-    const raw = getCookie(PROGRESS_COOKIE);
-    if (raw) {
-      try {
-        const parsed = JSON.parse(raw);
-        setProgressData(parsed);
-      } catch {
-        // ignore
-      }
-    }
-  }, []);
-
-  const declineCookies = useCallback(() => {
-    if (typeof localStorage !== "undefined") {
-      localStorage.setItem(
-        COOKIE_CONSENT_KEY,
-        JSON.stringify({ value: "declined", timestamp: Date.now() })
-      );
-    }
-    setCookiesAccepted(false);
-    setShowBanner(false);
-    setProgressData({});
-    setCookie(PROGRESS_COOKIE, "", -1);
-  }, []);
-
   return (
     <ProgressContext.Provider
       value={{
@@ -151,9 +87,6 @@ export function ProgressProvider({ children }) {
         total: MODULES.length,
         isCompleted,
         toggleComplete,
-        showBanner,
-        acceptCookies,
-        declineCookies,
       }}
     >
       {children}

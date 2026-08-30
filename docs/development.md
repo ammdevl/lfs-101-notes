@@ -34,7 +34,7 @@ Quick orientation — full details in [Architecture](architecture.md):
 
 ```
 pages/            routes (_app providers · index home · modules/[id] SSG pages)
-layouts/          Base shell + Header, Sidebar, Footer, ThemeSwitcher, CodeBlock…
+layouts/          Base shell + Header (⌘K palette), Sidebar, Footer, ThemeSwitcher…
 components/       ProgressContext (cookie store) + modules/*.js content files
 data/modules.js   module registry (ids/order/titles) — source of truth
 config/theme.json design tokens → tailwind.config.js

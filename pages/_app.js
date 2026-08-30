@@ -1,5 +1,6 @@
 import LenisProvider from "@layouts/components/LenisProvider";
 import { ProgressProvider } from "@components/ProgressContext";
+import { SearchProvider } from "@components/SearchContext";
 import { ThemeProvider } from "next-themes";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -23,9 +24,11 @@ const App = ({ Component, pageProps }) => {
   return (
     <ThemeProvider attribute="class" defaultTheme="light">
       <ProgressProvider>
-        <LenisProvider>
-          <Component {...pageProps} />
-        </LenisProvider>
+        <SearchProvider>
+          <LenisProvider>
+            <Component {...pageProps} />
+          </LenisProvider>
+        </SearchProvider>
       </ProgressProvider>
     </ThemeProvider>
   );

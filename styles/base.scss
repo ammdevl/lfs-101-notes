@@ -1,5 +1,5 @@
 /* =========================================================================
-   Base styles – Reset, typography, global elements
+   Base styles – Reset, typography, global elements, motion primitives
    ========================================================================= */
 
 /* Reset */
@@ -31,13 +31,9 @@ body {
 
 /* Smooth theme switching on key surfaces.
    Components that already define their own transitions
-   (.card, .home-feature, .home-quick-link, .progress-bar__fill) are excluded. */
+   (.card, .home-feature, .progress-bar__fill) are excluded. */
 body,
-.topbar,
 .footer,
-.home-stat,
-.modules-progress-card,
-.cookie-banner__content,
 .progress-bar {
   @apply transition-colors duration-normal;
 }
@@ -48,10 +44,11 @@ body,
   @apply bg-darkmode-body text-darkmode-text;
 }
 
-/* Headings */
+/* Headings — Space Grotesk display face for the modern editorial feel */
 h1, h2, h3, h4, h5, h6 {
-  @apply font-secondary text-text-heading font-bold;
-  line-height: 1.3;
+  @apply font-display text-text-heading font-bold;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
@@ -62,6 +59,16 @@ h1 { font-size: theme("fontSize.h1"); }
 h2 { font-size: theme("fontSize.h2"); }
 h3 { font-size: theme("fontSize.h3"); }
 h4 { font-size: theme("fontSize.h4"); }
+
+/* Gradient headline text */
+.gradient-text {
+  @apply bg-gradient-text bg-clip-text text-transparent;
+  background-size: 180% 180%;
+}
+
+.dark .gradient-text {
+  background-image: linear-gradient(120deg, #818cf8 0%, #a78bfa 55%, #c4b5fd 100%);
+}
 
 /* Links */
 a {
@@ -81,10 +88,15 @@ a {
    hover underline (a:hover outranks their own `no-underline` utility). */
 .btn,
 .card,
-.home-quick-link,
+.module-card,
+.module-nav__card,
+.toc__link,
+.command-palette__item,
+.home-link-card,
+.home-feature,
 .topbar__brand,
+.topbar__search-btn,
 .course-sidebar__link,
-.course-sidebar__brand,
 .course-sidebar__home-btn,
 .skip-link {
   &,
@@ -99,9 +111,26 @@ img {
   @apply max-w-full h-auto;
 }
 
+/* Keyboard key chip */
+.kbd {
+  @apply inline-flex items-center justify-center min-w-[1.4rem] h-6 px-1.5 rounded-md border text-[11px] font-semibold font-secondary leading-none;
+  background: theme("colors.code-inline");
+  border-color: theme("colors.border");
+  color: theme("colors.text-secondary");
+  box-shadow: 0 1px 0 theme("colors.border");
+}
+
+.dark .kbd {
+  background: theme("colors.darkmode.code-inline");
+  border-color: theme("colors.darkmode.border");
+  color: theme("colors.darkmode.text-secondary");
+  box-shadow: 0 1px 0 theme("colors.darkmode.border");
+}
+
 /* Skip link (accessibility) */
 .skip-link {
-  @apply absolute -top-full left-4 z-[9999] px-4 py-2 bg-primary text-white font-semibold text-sm rounded-b-md no-underline transition-all duration-200;
+  @apply absolute -top-full left-4 z-[9999] px-4 py-2 text-white font-semibold text-sm rounded-b-lg no-underline transition-all duration-200;
+  background: theme("colors.primary.DEFAULT");
   &:focus {
     @apply top-0 text-white no-underline;
   }
@@ -110,21 +139,23 @@ img {
 /* Focus states */
 :focus-visible {
   @apply outline-2 outline-offset-2;
-  outline-color: #1a56db;
+  outline-color: theme("colors.primary.DEFAULT");
   border-radius: 2px;
 }
 
 button:focus-visible,
 a:focus-visible,
-[tabindex]:focus-visible {
-  box-shadow: 0 0 0 2px theme("colors.body"), 0 0 0 4px #1a56db;
+[tabindex]:focus-visible,
+input:focus-visible {
+  box-shadow: 0 0 0 2px theme("colors.body"), 0 0 0 4px theme("colors.primary.DEFAULT");
   @apply outline-none;
 }
 
 .dark button:focus-visible,
 .dark a:focus-visible,
-.dark [tabindex]:focus-visible {
-  box-shadow: 0 0 0 2px theme("colors.darkmode.body"), 0 0 0 4px #3b82f6;
+.dark [tabindex]:focus-visible,
+.dark input:focus-visible {
+  box-shadow: 0 0 0 2px theme("colors.darkmode.body"), 0 0 0 4px theme("colors.darkmode.primary.DEFAULT");
 }
 
 /* Reduced motion */
@@ -153,4 +184,33 @@ a:focus-visible,
   @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+/* Scroll-reveal primitives.
+   Initial hidden state applies ONLY when JS is available (html.js, added by
+   an inline script in _document) so static/no-JS renders stay visible. */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+html.js .reveal.reveal--scale {
+  transform: scale(0.97) translateY(10px);
+}
+
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

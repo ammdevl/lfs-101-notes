@@ -22,11 +22,14 @@ A fully static study-notes site for the Linux Foundation's **Introduction to Lin
 
 ## Feature Overview
 
-- **17 course modules** as statically generated pages with per-page code splitting
-- **Dark mode** with no flash-of-wrong-theme
-- **Progress tracking** stored in browser cookies — no accounts, no server
+- **17 course modules** as statically generated pages with per-page code splitting and reading-time estimates
+- **⌘K command palette** — search modules and every section heading, deep-link to sections
+- **Dark mode** with no flash-of-wrong-theme, WCAG-AA checked surfaces
+- **Progress tracking** stored in browser cookies — no accounts, no server — with a sidebar progress ring
+- **Copy buttons** injected into all 173 terminal blocks; confetti on module completion
+- **Reading progress bar** on module pages; instant search + completion filters on the modules page
 - **Course sidebar** that persists across module navigation on desktop
-- **Keyboard support** (`Alt+←/→` between modules, skip link, full focus management)
+- **Keyboard support** (`⌘K` search, `Alt+←/→` between modules, skip link, full focus management)
 - **Accessible** markup: live regions, ARIA states, reduced-motion support
 
 ## Quick Links

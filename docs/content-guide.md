@@ -49,7 +49,7 @@ macOS-style blocks are plain markup (no component needed inside module content):
 
 Color classes: `term-cmd` (green commands), `term-out` (output), `term-comment` (gray).
 
-> The interactive copy button belongs to the `<CodeBlock />` layout component used outside generated content; static module blocks don't need one.
+> A copy button is injected into every static block at runtime by the module-page DOM pass — no component needed; just write the `.code-block` markup above.
 
 ## Summary Sections
 
