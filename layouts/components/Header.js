@@ -24,6 +24,12 @@ const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar }) => 
     <>
       <header className="topbar">
         <div className="topbar__inner">
+          <Link href="/" className="topbar__brand">
+            <span className="topbar__brand-icon" aria-hidden="true">
+              <TuxMark size={30} />
+            </span>
+            <span className="topbar__brand-text">LFS101 Notes</span>
+          </Link>
           {showSidebarToggle && (
             <button
               className="topbar__sidebar-toggle"
@@ -38,12 +44,6 @@ const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar }) => 
               </svg>
             </button>
           )}
-          <Link href="/" className="topbar__brand">
-            <span className="topbar__brand-icon" aria-hidden="true">
-              <TuxMark size={30} />
-            </span>
-            <span className="topbar__brand-text">LFS101 Notes</span>
-          </Link>
           <div className="topbar__spacer" />
           <div className="topbar__actions">
             <button
