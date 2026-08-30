@@ -7,7 +7,7 @@ import { scrollToTarget, scrollToTopOfPage } from "@lib/scroll";
 
 const FAB_RING_C = 138.23; // 2πr, r = 22 — must match styles/layout.scss
 
-const Base = ({ title, description, children, sidebar, sidebarOpen, onToggleSidebar, topbarInset = false, wide = false, showReadingProgress = false }) => {
+const Base = ({ title, description, children, sidebar, sidebarOpen, onToggleSidebar, wide = false, showReadingProgress = false }) => {
   const pageTitle = title ? `${title} | LFS101 Notes` : "Introduction to Linux - LFS101 Notes";
   const pageDesc = description || "Personal study notes from the Introduction to Linux (LFS101) course by the Linux Foundation.";
   const contentRef = useRef(null);
@@ -84,7 +84,7 @@ const Base = ({ title, description, children, sidebar, sidebarOpen, onToggleSide
       <div className={`app ${sidebar ? "app--sidebar" : ""}`}>
         {sidebar}
         <div className="main">
-          <Header showSidebarToggle={!!sidebar} sidebarOpen={sidebarOpen} onToggleSidebar={onToggleSidebar} inset={topbarInset} />
+          <Header showSidebarToggle={!!sidebar} sidebarOpen={sidebarOpen} onToggleSidebar={onToggleSidebar} />
           <div className="split-layout">
             <main className="split-layout__content" id="content" ref={contentRef} tabIndex={-1}>
               <div className={`content content-fade-in ${wide ? "content--wide" : ""}`}>

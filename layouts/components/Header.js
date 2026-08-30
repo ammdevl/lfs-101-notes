@@ -4,7 +4,7 @@ import CommandPalette from "./CommandPalette";
 import TuxMark from "@components/TuxMark";
 import Link from "next/link";
 
-const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar, inset = false }) => {
+const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar }) => {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [isMac, setIsMac] = useState(false);
 
@@ -22,7 +22,7 @@ const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar, inset
 
   return (
     <>
-      <header className={`topbar ${inset ? "topbar--inset" : ""}`}>
+      <header className="topbar">
         {showSidebarToggle && (
           <button
             className="topbar__sidebar-toggle"
@@ -39,7 +39,7 @@ const Header = ({ showSidebarToggle = false, sidebarOpen, onToggleSidebar, inset
         )}
         <Link href="/" className="topbar__brand">
           <span className="topbar__brand-icon" aria-hidden="true">
-            <TuxMark size={17} />
+            <TuxMark size={26} />
           </span>
           <span className="topbar__brand-text">LFS101 Notes</span>
         </Link>
