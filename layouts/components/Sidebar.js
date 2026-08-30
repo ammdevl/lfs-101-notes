@@ -4,10 +4,14 @@ import { useProgress } from "@components/ProgressContext";
 import MODULES from "@data/modules";
 import Link from "next/link";
 
+const RING_R = 10;
+const RING_C = 2 * Math.PI * RING_R;
+
 const Sidebar = ({ isOpen, onClose }) => {
   const router = useRouter();
   const { isCompleted, completed, total } = useProgress();
   const activeId = router.query.id;
+  const offset = total ? RING_C * (1 - completed / total) : RING_C;
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -34,10 +38,53 @@ const Sidebar = ({ isOpen, onClose }) => {
         aria-hidden="true"
       />
 
-      <aside id="course-sidebar" className={`course-sidebar ${isOpen ? "open" : "closed"}`} aria-label="Course modules">
+      <aside
+        id="course-sidebar"
+        className={`course-sidebar ${isOpen ? "open" : "closed"}`}
+        aria-label="Course modules"
+        data-lenis-prevent
+      >
         <div className="course-sidebar__header">
-          <div className="course-sidebar__progress-text">
-            {completed}/{total} complete
+          <p className="course-sidebar__eyebrow">Course content</p>
+          <div className="course-sidebar__progress-row">
+            <div
+              className="progress-ring"
+              role="progressbar"
+              aria-valuenow={completed}
+              aria-valuemin="0"
+              aria-valuemax={total}
+              aria-label={`Course progress: ${completed} of ${total} modules complete`}
+            >
+              <svg width="38" height="38" viewBox="0 0 30 30" aria-hidden="true">
+                <defs>
+                  <linearGradient id="sidebarRingGradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#818cf8" />
+                    <stop offset="100%" stopColor="#a78bfa" />
+                  </linearGradient>
+                </defs>
+                <circle className="progress-ring__track" cx="15" cy="15" r={RING_R} strokeWidth="2.5" fill="none" opacity="0.5" />
+                <circle
+                  className="progress-ring__fill"
+                  cx="15"
+                  cy="15"
+                  r={RING_R}
+                  strokeWidth="2.5"
+                  fill="none"
+                  stroke="url(#sidebarRingGradient)"
+                  strokeLinecap="round"
+                  strokeDasharray={RING_C}
+                  strokeDashoffset={offset}
+                />
+              </svg>
+              <span className="progress-ring__label text-[8px] text-white">
+                {total ? Math.round((completed / total) * 100) : 0}%
+              </span>
+            </div>
+            <p className="course-sidebar__progress-text">
+              <strong>{completed} of {total}</strong>
+              <br />
+              modules complete
+            </p>
           </div>
         </div>
 
@@ -54,10 +101,10 @@ const Sidebar = ({ isOpen, onClose }) => {
                 aria-current={active ? "page" : undefined}
               >
                 <span className="course-sidebar__link-num" aria-hidden="true">{i + 1}</span>
-                <span>{m.title}</span>
+                <span className="truncate">{m.title}</span>
                 {done && (
                   <span className="course-sidebar__link-check" aria-label="(completed)">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </span>

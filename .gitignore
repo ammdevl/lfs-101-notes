@@ -52,3 +52,6 @@ Thumbs.db
 # Playwright
 .playwright-mcp/
 
+
+# ZCode session artifacts
+.zcode/

@@ -1,22 +1,64 @@
+import Link from "next/link";
+
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer__inner">
-        <span className="footer__brand">
-          <a href="#content" aria-label="Scroll to top">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "middle" }} aria-hidden="true">
-              <polyline points="18 15 12 9 6 15" />
-            </svg>
-            {" "}Back to top
-          </a>
-        </span>
-        <span className="footer__sep">&middot;</span>
-        <span className="footer__copy">
-          &copy; 2026 &mdash; Unofficial study resource, not affiliated with the{" "}
-          <a href="https://www.linuxfoundation.org/" target="_blank" rel="noopener">
-            Linux Foundation
-          </a>
-        </span>
+        <div className="footer__grid">
+          <div>
+            <div className="footer__brand-row">
+              <span className="footer__brand-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
+                </svg>
+              </span>
+              <span className="footer__brand-name">LFS101 Notes</span>
+            </div>
+            <p className="footer__desc">
+              Personal study notes from the &ldquo;Introduction to Linux&rdquo; (LFS101)
+              course by the Linux Foundation — free, unofficial, and stored entirely
+              in your browser.
+            </p>
+          </div>
+
+          <nav aria-label="Course">
+            <h2 className="footer__heading">Course</h2>
+            <div className="footer__links">
+              <Link href="/modules/">All modules</Link>
+              <Link href="/modules/linux-history/">Start learning</Link>
+              <Link href="/">Home</Link>
+            </div>
+          </nav>
+
+          <nav aria-label="Resources">
+            <h2 className="footer__heading">Resources</h2>
+            <div className="footer__links">
+              <a href="https://training.linuxfoundation.org/training/introduction-to-linux/" target="_blank" rel="noopener">
+                Official LFS101 course
+              </a>
+              <a href="https://www.linuxfoundation.org/" target="_blank" rel="noopener">
+                Linux Foundation
+              </a>
+              <a href="https://www.kernel.org/" target="_blank" rel="noopener">
+                Kernel.org
+              </a>
+              <a href="https://distrowatch.com/" target="_blank" rel="noopener">
+                DistroWatch
+              </a>
+            </div>
+          </nav>
+        </div>
+
+        <div className="footer__bottom">
+          <span className="footer__copy">
+            &copy; 2026 &mdash; Unofficial study resource, not affiliated with the{" "}
+            <a href="https://www.linuxfoundation.org/" target="_blank" rel="noopener">
+              Linux Foundation
+            </a>
+          </span>
+        </div>
       </div>
     </footer>
   );
