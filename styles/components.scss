@@ -1434,12 +1434,28 @@
   color: theme("colors.darkmode.text-secondary");
 }
 
-.home-about {
-  @apply text-text-secondary;
+/* Terminal-style section label — ties every section to the hero */
+.home-eyebrow {
+  @apply mb-4 inline-flex items-center gap-2 rounded-lg border px-2.5 py-1 text-[12px];
+  font-family: theme("fontFamily.mono");
+  background: theme("colors.code-inline");
+  border-color: theme("colors.border");
+  color: theme("colors.text-secondary");
 }
 
-.dark .home-about {
-  @apply text-darkmode-text-secondary;
+.dark .home-eyebrow {
+  background: theme("colors.darkmode.code-inline");
+  border-color: theme("colors.darkmode.border");
+  color: theme("colors.darkmode.text-secondary");
+}
+
+.home-eyebrow__prompt {
+  color: theme("colors.success.DEFAULT");
+  font-weight: 700;
+}
+
+.dark .home-eyebrow__prompt {
+  color: theme("colors.darkmode.success.DEFAULT");
 }
 
 /* Home features (bento) */
@@ -1499,39 +1515,104 @@
   color: theme("colors.darkmode.text-secondary");
 }
 
+.home-feature__body {
+  @apply min-w-0 flex-1;
+}
+
+/* Terminal-flavored micro-command inside each feature card */
+.home-feature__hint {
+  @apply mt-3 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-[11px];
+  font-family: theme("fontFamily.mono");
+  background: theme("colors.code-inline");
+  border-color: theme("colors.border");
+  color: theme("colors.text-muted");
+
+  span {
+    color: theme("colors.success.DEFAULT");
+    font-weight: 700;
+  }
+}
+
+.dark .home-feature__hint {
+  background: theme("colors.darkmode.code-inline");
+  border-color: theme("colors.darkmode.border");
+  color: theme("colors.darkmode.text-muted");
+
+  span {
+    color: theme("colors.darkmode.success.DEFAULT");
+  }
+}
+
+.home-feature:hover .home-feature__hint {
+  color: theme("colors.text-heading");
+  border-color: rgba(79, 70, 229, 0.35);
+}
+
+.dark .home-feature:hover .home-feature__hint {
+  color: theme("colors.darkmode.text-heading");
+  border-color: rgba(129, 140, 248, 0.4);
+}
+
+/* Asymmetric bento: wide cards every other row */
+.home-features--bento {
+  @apply lg:grid-cols-[repeat(3,minmax(0,1fr))];
+}
+
+.home-feature-cell--wide {
+  @apply lg:col-span-2;
+}
+
 /* Course outline */
-/* Course outline (home) — plain list; hover styles only apply to the
-   clickable variant (a.home-outline__item) used elsewhere */
+/* Course outline — terminal window (hero-consistent) */
+.home-outline-term {
+  @apply mt-6 overflow-hidden rounded-2xl border;
+  border-color: theme("colors.border");
+  background: #16181d;
+  color: #d1d1d6;
+  box-shadow: 0 24px 64px -16px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(79, 70, 229, 0.08);
+}
+
+.dark .home-outline-term {
+  border-color: theme("colors.darkmode.border");
+  box-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(129, 140, 248, 0.1);
+}
+
+.home-outline-term__header {
+  @apply flex items-center gap-2 border-b px-4 py-3;
+  border-color: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.home-outline-term__body {
+  @apply p-5 sm:p-6;
+}
+
+.home-outline-term__cmd {
+  @apply mb-4 text-[13px];
+  font-family: theme("fontFamily.mono");
+  color: #8b8b93;
+}
+
 .home-outline {
-  @apply mt-6 grid grid-cols-[minmax(0,1fr)] gap-1.5 sm:grid-cols-[repeat(2,minmax(0,1fr))];
+  @apply grid grid-cols-[minmax(0,1fr)] gap-x-8 sm:grid-cols-[repeat(2,minmax(0,1fr))];
+  list-style: none;
 }
 
 .home-outline__item {
-  @apply flex items-center gap-3 rounded-xl px-3 py-2.5;
-  font-family: theme("fontFamily.secondary");
-
-  .home-outline__num {
-    @apply inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[11px] font-bold tabular-nums;
-    background: theme("colors.code-inline");
-    color: theme("colors.text-muted");
-    font-family: theme("fontFamily.mono");
-  }
-
-  .home-outline__title {
-    @apply line-clamp-1 text-sm font-medium;
-    color: theme("colors.text-heading");
-  }
+  @apply flex items-baseline gap-3 border-b py-2.5 last:border-b-0;
+  border-color: rgba(255, 255, 255, 0.06);
 }
 
-.dark .home-outline__item {
-  .home-outline__num {
-    background: theme("colors.darkmode.code-inline");
-    color: theme("colors.darkmode.text-muted");
-  }
+.home-outline__num {
+  @apply shrink-0 text-[11px] font-bold tabular-nums;
+  font-family: theme("fontFamily.mono");
+  color: #818cf8;
+}
 
-  .home-outline__title {
-    color: theme("colors.darkmode.text-heading");
-  }
+.home-outline__title {
+  @apply line-clamp-1 text-[13px] font-medium;
+  font-family: theme("fontFamily.secondary");
+  color: #e2e8f0;
 }
 
 /* Home steps (how to use) */
@@ -1540,18 +1621,32 @@
 }
 
 .home-step {
-  @apply relative rounded-2xl border p-5 pt-7;
+  @apply relative rounded-2xl border p-5 pt-7 transition-all duration-normal;
   border-color: theme("colors.border");
   background: theme("colors.body");
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(79, 70, 229, 0.35);
+    box-shadow: theme("boxShadow.soft");
+
+    .home-step__num {
+      transform: scale(1.12);
+    }
+  }
 }
 
 .dark .home-step {
   border-color: theme("colors.darkmode.border");
   background: #101828;
+
+  &:hover {
+    border-color: rgba(129, 140, 248, 0.4);
+  }
 }
 
 .home-step__num {
-  @apply absolute -top-3.5 left-5 inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white;
+  @apply absolute -top-3.5 left-5 inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white transition-transform duration-normal;
   background: linear-gradient(135deg, theme("colors.primary.DEFAULT"), theme("colors.accent.DEFAULT"));
   box-shadow: 0 4px 12px -2px rgba(79, 70, 229, 0.5);
   font-family: theme("fontFamily.secondary");
@@ -1573,82 +1668,121 @@
   color: theme("colors.darkmode.text-secondary");
 }
 
-/* Home lists (who is this for) */
-.home-list {
-  @apply mt-4 space-y-2 pl-6;
+/* Quick links — link cards */
+.home-links {
+  @apply mt-6 grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-[repeat(2,minmax(0,1fr))] lg:grid-cols-[repeat(3,minmax(0,1fr))];
 }
 
-.home-list--ordered {
-  @apply list-decimal;
-}
-
-.home-list li {
-  @apply text-text-secondary;
-}
-
-.dark .home-list li {
-  @apply text-darkmode-text-secondary;
-}
-
-.home-list li strong {
-  @apply text-text-heading;
-}
-
-.dark .home-list li strong {
-  @apply text-darkmode-text-heading;
-}
-
-.home-list li::marker {
-  color: theme("colors.primary.DEFAULT");
-}
-
-.dark .home-list li::marker {
-  color: theme("colors.darkmode.primary.DEFAULT");
-}
-
-/* Quick links (pill chips) */
-.home-quick-links {
-  @apply mt-6 flex flex-wrap gap-2.5;
-}
-
-.home-quick-link {
-  @apply inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm no-underline transition-all duration-normal;
+.home-link-card {
+  @apply flex items-center gap-3 rounded-xl border p-3.5 no-underline transition-all duration-normal;
   border-color: theme("colors.border");
   background: theme("colors.body");
   color: theme("colors.text-heading");
   font-family: theme("fontFamily.secondary");
+  font-size: 14px;
+  font-weight: 600;
 
   &:hover {
     @apply no-underline;
-    border-color: rgba(79, 70, 229, 0.5);
-    background: linear-gradient(135deg, rgba(79, 70, 229, 0.06), rgba(124, 58, 237, 0.05));
     transform: translateY(-2px);
+    border-color: rgba(79, 70, 229, 0.4);
     box-shadow: theme("boxShadow.soft");
+
+    .home-link-card__arrow {
+      opacity: 1;
+      transform: translate(2px, -2px);
+    }
   }
 }
 
-.dark .home-quick-link {
+.dark .home-link-card {
   border-color: theme("colors.darkmode.border");
   background: #101828;
   color: theme("colors.darkmode.text-heading");
 
   &:hover {
-    border-color: rgba(129, 140, 248, 0.5);
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.1));
+    border-color: rgba(129, 140, 248, 0.45);
   }
 }
 
-.home-quick-link__icon {
-  @apply shrink-0 transition-transform duration-normal;
+.home-link-card__icon {
+  @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
   color: theme("colors.primary.DEFAULT");
 }
 
-.dark .home-quick-link__icon {
+.dark .home-link-card__icon {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.14), rgba(167, 139, 250, 0.14));
   color: theme("colors.darkmode.primary.DEFAULT");
 }
 
-.home-quick-link:hover .home-quick-link__icon {
-  transform: scale(1.15);
+.home-link-card__text {
+  @apply min-w-0 flex-1;
+}
+
+.home-link-card__arrow {
+  @apply shrink-0 opacity-0 transition-all duration-normal;
+  color: theme("colors.primary.DEFAULT");
+}
+
+.dark .home-link-card__arrow {
+  color: theme("colors.darkmode.primary.DEFAULT");
+}
+
+/* CTA band */
+.home-cta {
+  @apply relative my-12 overflow-hidden rounded-3xl px-6 py-12 text-center md:py-16;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  box-shadow: 0 24px 64px -16px rgba(79, 70, 229, 0.5);
+}
+
+.home-cta__bg {
+  @apply pointer-events-none absolute inset-0;
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 36px 36px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 90% at 50% 10%, black 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse 80% 90% at 50% 10%, black 30%, transparent 80%);
+}
+
+.home-cta__title {
+  @apply relative font-display text-3xl font-bold md:text-4xl;
+  letter-spacing: -0.02em;
+}
+
+.home-cta__sub {
+  @apply relative mx-auto mt-3 max-w-xl text-base md:text-lg;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.home-cta__actions {
+  @apply relative mt-8 flex flex-wrap items-center justify-center gap-3;
+}
+
+.home-cta__btn {
+  @apply border-none bg-white text-[#4338ca] shadow-lift;
+
+  &:hover {
+    @apply -translate-y-0.5 bg-indigo-50 text-[#4338ca];
+  }
+}
+
+.home-cta__btn--ghost {
+  @apply border border-white/40 bg-transparent text-white shadow-none;
+
+  &:hover {
+    @apply bg-white/10 text-white;
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.home-cta__meta {
+  @apply relative mt-7 text-[12px];
+  font-family: theme("fontFamily.mono");
+  color: rgba(255, 255, 255, 0.65);
 }
 
 /* Attribution */

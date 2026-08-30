@@ -96,6 +96,15 @@ const HeroTerminal = () => {
   );
 };
 
+/* ---------------- Section eyebrow (terminal-style label) ---------------- */
+
+const Eyebrow = ({ command }) => (
+  <p className="home-eyebrow">
+    <span className="home-eyebrow__prompt" aria-hidden="true">$</span>
+    {command}
+  </p>
+);
+
 /* ---------------- Page ---------------- */
 
 const HomePage = ({ totalMinutes, searchIndex }) => {
@@ -114,9 +123,6 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
     return MODULES.find((m) => !isCompleted(m.id)) || null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [completed, lastVisitedId]);
-
-  const ringR = 24;
-  const ringC = 2 * Math.PI * ringR;
 
   return (
     <Base topbarInset wide>
@@ -265,58 +271,165 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
       {/* What you'll learn */}
       <div className="home-section home-section--narrow">
         <ScrollReveal>
+          <Eyebrow command="cat skills.txt" />
           <h2 className="home-section__title">What you&rsquo;ll learn</h2>
           <p className="home-section__sub">
             Everything you need to feel at home on Linux — the same ground the
             official LFS101 course covers, distilled into review-friendly notes.
           </p>
         </ScrollReveal>
-        <div className="home-features">
+        <div className="home-features home-features--bento">
           {[
             {
               title: "Command Line Mastery",
-              desc: "Navigate the filesystem, manage processes, and use pipes, redirection, and shell scripting.",
+              desc: "Navigate the filesystem, chain programs with pipes and redirection, and make the shell work for you.",
+              hint: "man bash",
+              wide: true,
               icon: (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                  <line x1="8" y1="21" x2="16" y2="21" />
-                  <line x1="12" y1="17" x2="12" y2="21" />
-                  <polyline points="7 8 10 11 7 14" />
-                  <line x1="13" y1="14" x2="17" y2="14" />
+                  <polyline points="4 17 10 11 4 5" />
+                  <line x1="12" y1="19" x2="20" y2="19" />
                 </svg>
               ),
             },
             {
-              title: "File & Process Management",
-              desc: "Understand permissions, ownership, links, and how Linux manages processes and services.",
+              title: "Files & Processes",
+              desc: "Permissions, ownership, links, signals, and service management.",
+              hint: "ps aux",
               icon: (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-                  <line x1="12" y1="11" x2="12" y2="17" />
-                  <line x1="9" y1="14" x2="15" y2="14" />
+                </svg>
+              ),
+            },
+            {
+              title: "Text Processing",
+              desc: "grep, sed, and awk — search, slice, and transform data like a native.",
+              hint: "grep -r pattern .",
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
               ),
             },
             {
               title: "Networking & Security",
               desc: "Configure networks, use SSH, manage firewalls, and apply local security principles.",
+              hint: "ssh user@host",
+              wide: true,
               icon: (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="2" y1="12" x2="22" y2="12" />
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              ),
+            },
+          ].map((f, i) => (
+            <ScrollReveal key={f.title} delay={i * 70} className={f.wide ? "home-feature-cell--wide" : ""}>
+              <div className="home-feature">
+                <span className="home-feature__icon" aria-hidden="true">{f.icon}</span>
+                <div className="home-feature__body">
+                  <strong>{f.title}</strong>
+                  <p>{f.desc}</p>
+                  <code className="home-feature__hint">
+                    <span aria-hidden="true">$</span> {f.hint}
+                  </code>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+
+      {/* Course outline — terminal window */}
+      <div className="home-section home-section--narrow">
+        <ScrollReveal>
+          <Eyebrow command="ls ~/course" />
+          <h2 className="home-section__title">Course outline</h2>
+          <p className="home-section__sub">
+            Seventeen modules, from the history of the kernel to local security
+            principles.
+          </p>
+        </ScrollReveal>
+        <ScrollReveal scale delay={80}>
+          <div className="home-outline-term">
+            <div className="home-outline-term__header">
+              <div className="home-terminal__dots" aria-hidden="true">
+                <span className="home-terminal__dot home-terminal__dot--close" />
+                <span className="home-terminal__dot home-terminal__dot--min" />
+                <span className="home-terminal__dot home-terminal__dot--max" />
+              </div>
+              <span className="home-terminal__title">student@lfs101: ~/course</span>
+            </div>
+            <div className="home-outline-term__body">
+              <p className="home-outline-term__cmd" aria-hidden="true">
+                <span className="home-terminal__prompt">$</span> cat course-outline.txt
+              </p>
+              <ol className="home-outline">
+                {MODULES.map((m, i) => (
+                  <li key={m.id} className="home-outline__item">
+                    <span className="home-outline__num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="home-outline__title">{m.title}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+
+      {/* Who is this for */}
+      <div className="home-section home-section--narrow">
+        <ScrollReveal>
+          <Eyebrow command="who | grep learners" />
+          <h2 className="home-section__title">Who is this for?</h2>
+          <p className="home-section__sub">
+            If a terminal has ever felt intimidating, these notes are for you.
+          </p>
+        </ScrollReveal>
+        <div className="home-features">
+          {[
+            {
+              title: "Developers",
+              desc: "who want to understand the platform their code runs on.",
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="16 18 22 12 16 6" />
+                  <polyline points="8 6 2 12 8 18" />
                 </svg>
               ),
             },
             {
-              title: "Linux Ecosystem",
-              desc: "Explore distributions, desktop environments, package management, and the open-source community.",
+              title: "System Administrators",
+              desc: "building foundational Linux skills for servers and the cloud.",
               icon: (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                  <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+                  <line x1="6" y1="6" x2="6.01" y2="6" />
+                  <line x1="6" y1="18" x2="6.01" y2="18" />
+                </svg>
+              ),
+            },
+            {
+              title: "Students",
+              desc: "studying computer science or IT and prepping for the real world.",
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                  <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                </svg>
+              ),
+            },
+            {
+              title: "The Curious",
+              desc: "anyone who has wondered what makes open source tick.",
+              icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
                 </svg>
               ),
             },
@@ -324,7 +437,7 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
             <ScrollReveal key={f.title} delay={i * 70}>
               <div className="home-feature">
                 <span className="home-feature__icon" aria-hidden="true">{f.icon}</span>
-                <div>
+                <div className="home-feature__body">
                   <strong>{f.title}</strong>
                   <p>{f.desc}</p>
                 </div>
@@ -334,43 +447,10 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
         </div>
       </div>
 
-      {/* Course outline */}
-      <div className="home-section home-section--narrow">
-        <ScrollReveal>
-          <h2 className="home-section__title">Course outline</h2>
-          <p className="home-section__sub">
-            Seventeen modules, from the history of the kernel to local security
-            principles — each with an estimated reading time.
-          </p>
-        </ScrollReveal>
-        <ScrollReveal className="home-outline" delay={80}>
-          {MODULES.map((m, i) => (
-            <div key={m.id} className="home-outline__item">
-              <span className="home-outline__num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-              <span className="home-outline__title">{m.title}</span>
-            </div>
-          ))}
-        </ScrollReveal>
-      </div>
-
-      {/* Who is this for */}
-      <div className="home-section home-section--narrow">
-        <ScrollReveal>
-          <h2 className="home-section__title">Who is this for?</h2>
-        </ScrollReveal>
-        <div className="home-about">
-          <ul className="home-list">
-            <li><strong>Developers</strong> who want to understand the platform their code runs on.</li>
-            <li><strong>System Administrators</strong> building foundational Linux skills.</li>
-            <li><strong>Students</strong> studying computer science or IT.</li>
-            <li><strong>Anyone</strong> curious about Linux and open-source software.</li>
-          </ul>
-        </div>
-      </div>
-
       {/* How to use */}
       <div className="home-section home-section--narrow">
         <ScrollReveal>
+          <Eyebrow command="./start-learning.sh" />
           <h2 className="home-section__title">How to use these notes</h2>
         </ScrollReveal>
         <div className="home-steps">
@@ -414,9 +494,10 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
       {/* Quick links */}
       <div className="home-section home-section--narrow">
         <ScrollReveal>
+          <Eyebrow command="open resources/" />
           <h2 className="home-section__title">Quick links</h2>
         </ScrollReveal>
-        <div className="home-quick-links">
+        <div className="home-links">
           {[
             { label: "Official LFS101 Course", href: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
             { label: "Linux Foundation", href: "https://www.linuxfoundation.org/" },
@@ -424,20 +505,50 @@ const HomePage = ({ totalMinutes, searchIndex }) => {
             { label: "What is Linux?", href: "https://www.linux.com/what-is-linux/" },
             { label: "DistroWatch", href: "https://distrowatch.com/" },
             { label: "Linux on GitHub", href: "https://github.com/torvalds/linux" },
-          ].map((l) => (
-            <a key={l.label} className="home-quick-link" href={l.href} target="_blank" rel="noopener">
-              <span className="home-quick-link__icon" aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
+          ].map((l, i) => (
+            <ScrollReveal key={l.label} delay={i * 50}>
+              <a className="home-link-card" href={l.href} target="_blank" rel="noopener">
+                <span className="home-link-card__icon" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </span>
+                <span className="home-link-card__text">{l.label}</span>
+                <svg className="home-link-card__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
                 </svg>
-              </span>
-              {l.label}
-            </a>
+              </a>
+            </ScrollReveal>
           ))}
         </div>
       </div>
+
+      {/* CTA band */}
+      <ScrollReveal scale className="home-section--narrow">
+        <div className="home-cta">
+          <div className="home-cta__bg" aria-hidden="true" />
+          <h2 className="home-cta__title">Start your Linux journey today</h2>
+          <p className="home-cta__sub">
+            Seventeen modules. One terminal. Zero cost — no account needed.
+          </p>
+          <div className="home-cta__actions">
+            <Link href={`/modules/${MODULES[0].id}/`} className="btn home-cta__btn">
+              Start with Module 1
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+            <Link href="/modules/" className="btn home-cta__btn home-cta__btn--ghost">
+              Browse all modules
+            </Link>
+          </div>
+          <p className="home-cta__meta" aria-hidden="true">$ free --forever · self-paced · progress stays local</p>
+        </div>
+      </ScrollReveal>
 
       <div className="attribution home-attribution">
         These notes are based on the original{" "}
