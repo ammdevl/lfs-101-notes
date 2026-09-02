@@ -1,7 +1,6 @@
 # LFS101 Notes
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub](https://img.shields.io/badge/GitHub-ammdevl-181717?logo=github)](***REMOVED***)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 ## About
@@ -36,7 +35,7 @@ A static site built with **Next.js** (Pages Router), **Tailwind CSS 3 + SCSS**, 
 
 ```bash
 # Clone the repository
-git clone ***REMOVED***/lfs-101-notes.git
+git clone https://github.com/ammdevl/lfs-101-notes.git
 cd lfs-101-notes
 
 # Install dependencies
@@ -190,13 +189,3 @@ This is an unofficial study resource and is not affiliated with or endorsed by t
 
 This repository is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact Me
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](***REMOVED***)
-[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](***REMOVED***)
-[![Telegram](https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](***REMOVED***)
-
----
-<div align="center">
-💬 Feel free to contact me if you have any questions or feedback.
-</div>

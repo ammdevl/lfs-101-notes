@@ -61,7 +61,7 @@ const Header = ({ showSidebarToggle = false, navbarWide = false, sidebarOpen, on
             </button>
             <a
               className="topbar__github-btn"
-              href="***REMOVED***/lfs-101-notes"
+              href="https://github.com/ammdevl/lfs-101-notes"
               target="_blank"
               rel="noopener"
               aria-label="GitHub repository"

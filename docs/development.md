@@ -10,7 +10,7 @@ Everything needed to run, work on, and contribute to the project locally.
 ## Getting Started
 
 ```bash
-git clone ***REMOVED***/lfs-101-notes.git
+git clone https://github.com/ammdevl/lfs-101-notes.git
 cd lfs-101-notes
 npm install
 npm run dev        # http://localhost:3000
